@@ -1,10 +1,3 @@
-/*---------- Created by Lui Rabideau, Xin Lin, Tassia Cocoran, Emma Sharp, and Jessica Bandol ----------*/
-/* Incorporated into the design from W3schools: W3.CSS 4.15 December 2020 by Jan Egil and Borge Refsnes */
-/*------------------------- Lui Rabideau's F2023 ITM352 Assignment 3 Template --------------------------*/
-/*-------------------------------------- UHM ITM354 Final Project --------------------------------------*/
-
-
-
 /*---------------------------------- GENERAL FUNCTIONS USED EVERWHERE ----------------------------------*/
 function faviconInfo(){ //contains favicon and css information
     document.write(`
