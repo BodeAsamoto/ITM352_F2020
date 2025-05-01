@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/style.css">
+
   </head>
   <body>
 
@@ -47,6 +48,7 @@
 	        </ul>
 	      </div>
 	    </div>
+		<div id="booking-info" class="alert alert-info text-center mt-4" style="display: none;"></div>
 	  </nav>
     <!-- END nav -->
 
@@ -439,6 +441,34 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="js/google-map.js"></script>
   <script src="js/main.js"></script>
-    
+  <script>
+	const params = new URLSearchParams(window.location.search);
+	const checkin = params.get("checkin");
+	const checkout = params.get("checkout");
+	const room = params.get("room");
+	const customer = params.get("customer");
+  
+	// Show booking summary
+	if (checkin || checkout || room || customer) {
+	  const infoBox = document.getElementById("booking-info");
+	  infoBox.style.display = "block";
+	  infoBox.innerHTML = `
+		✅ You searched for a <strong>${room || "Room"}</strong> 
+		from <strong>${checkin || "N/A"}</strong> 
+		to <strong>${checkout || "N/A"}</strong> 
+		for <strong>${customer || "Guests"}</strong>.
+	  `;
+	}
+  
+	// Filter rooms
+	if (room) {
+	  const allRooms = document.querySelectorAll('[data-room]');
+	  allRooms.forEach((roomDiv) => {
+		if (roomDiv.getAttribute('data-room') !== room) {
+		  roomDiv.style.display = 'none';
+		}
+	  });
+	}
+  </script>
   </body>
 </html>
