@@ -1,49 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Deluxe Checkout</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="./functions.js"></script>
+    <script>styleStuff();</script>
+    <script src="/rooms.js"></script>
+    <script>
+        // After the script is loaded, you can access `all_rooms` directly
+        all_rooms.forEach(room => {
+          console.log(room.name); // Log the name of each room
+          // You could also dynamically generate HTML here using the room data
+        });
 
-<head>
-    <title>Deluxe – Checkout</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+                // Function to update the room name based on the query string
+                function updateRoomName() {
+    const params = new URLSearchParams(window.location.search);
+    const room = params.get("room"); // Get the "room" parameter from the query string
 
-       <!-- Google Fonts & Icons -->
-       <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet" />
-       <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet" />
-       <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css" />
-       <link rel="stylesheet" href="css/animate.css" />
-   
-       <!-- CSS Dependencies -->
-       <link rel="stylesheet" href="css/owl.carousel.min.css" />
-       <link rel="stylesheet" href="css/owl.theme.default.min.css" />
-       <link rel="stylesheet" href="css/magnific-popup.css" />
-       <link rel="stylesheet" href="css/aos.css" />
-       <link rel="stylesheet" href="css/ionicons.min.css" />
-       <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
-       <link rel="stylesheet" href="css/jquery.timepicker.css" />
-       <link rel="stylesheet" href="css/style.css" />   
-</head>
-
-<body>
-      <!-- Nav -->
-      <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-        <div class="container">
-          <a class="navbar-brand" href="index.html">Deluxe</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="oi oi-menu"></span> Menu
-          </button>
-          <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-              <li class="nav-item active"><a href="checkout.html" class="nav-link">Checkout</a></li>
-              <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
-              <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-              <li class="nav-item"><a href="blog.html" class="nav-link">Guest Login</a></li>
-              <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-        <div id="booking-info" class="alert alert-info text-center mt-4" style="display: none;"></div>
-      </nav>
+    if (room) {
+        // Update the room name text
+        const roomNameElement = document.querySelector('.room-name');
+        roomNameElement.textContent = room;  // Set the text content to the room from the query string
+    }
+}
+        // Call the function when the page loads
+        window.onload = updateRoomName;
+      </script>
+  </head>
+  <body>
+<!---------------------------- Navigation Bar Start ---------------------------->
+<script>navBar();</script>
+<!----------------------------- Navigation Bar End ----------------------------->
 
     <!-- HERO SECTION -->
     <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
@@ -67,7 +56,7 @@
                 <div class="col-lg-7">
                     <div class="bg-white p-4 ftco-animate">
                         <h3 class="mb-4">Guest & Payment Information</h3>
-                        <form action="/process-transaction" method="POST">
+                        <form id="myForm" action="/process-transaction" method="POST">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="firstName">First Name</label>
@@ -134,13 +123,14 @@
                         <div class="d-flex justify-content-between mb-1">
                             <div>
                                 <h5 class="mb-0">Ocean View King Bed</h5>
+
                                 <small class="text-muted">Hotel Renew · 1 Night Stay</small>
                             </div>
                             <h5 class="mb-0">$129.00</h5>
                         </div>
                         <hr />
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Gift or discount code" />
+                            <input type="text" class="form-control" placeholder="Gift or discount code" form="myForm"/>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button">Apply</button>
                             </div>

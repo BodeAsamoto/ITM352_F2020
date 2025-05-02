@@ -24,8 +24,21 @@ app.use((req, res, next) => {
 // monitor all requests and make a reservation
 app.all('*', function (request, response, next){// this function also makes reservations
   console.log(request.method + ' to ' + request.path);
-
   next();
+});
+
+
+/*---------------------------------- JSON STUFF ----------------------------------*/
+// process a route for the rooms.json data
+const all_rooms = require(__dirname + "/rooms.json");
+
+app.get('/rooms.js', function(request, response, next) {
+  // the response will be JavaScript
+  response.type('.js');
+  // turn the rooms JSON into a JS variable
+  let rooms_str = `let all_rooms = ${JSON.stringify(all_rooms)};`;
+  // send the JS code as response
+  response.send(rooms_str);
 });
 
 /*---------------------------------- DATABASE CONNECTION ----------------------------------*/
@@ -43,7 +56,84 @@ con.connect(function (err) {// Throws error or confirms connection
  console.log("Connected!");
 });
 
+
+/*---------------------------------- current guest list attempt 2 ----------------------------------*/
+app.get('/api/currentguests', (req, res) => {
+  const query = `
+    SELECT 
+      First_Name,
+      Last_Name,
+      Email,
+      Phone,
+      Check_In_Date,
+      Check_Out_Date,
+      Length_of_Stay,
+      Room_Number,
+      Hotel_Name,
+      Hotel_Location
+    FROM CurrentGuestList;
+  `;
+
+  con.query(query, (err, results) => {
+    if (err) {
+      console.error("Failed to fetch guest list:", err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(results);
+  });
+});
+
+
+
 /*----------------------------- Transaction Route (Add this new route) ---------------------*/
+
+// sending back the cart 
+app.post('/get_reservation', function(request, response, next){
+  // the response will be json
+  response.type('json');
+  // turning the cart into a JSON string and sending it
+  response.send(JSON.stringify(request.session.reservation));
+});
+
+
+app.post('/toTransaction', function (request, response) {
+  const roomType = request.body.roomType;
+  response.redirect(`./transaction.html?roomType=${encodeURIComponent(roomType)}`);
+});
+
+// API route to get room data
+app.get('/api/rooms', (req, res) => {
+  con.query('SELECT * FROM Rooms WHERE Status = "Available";', (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
+});
+
+app.post('/api/searchGuest', (req, res) => {
+  const result = req.body.input;
+  const query = `
+  (SELECT *
+  FROM Guest
+  WHERE Lname = ?)
+  UNION
+  (SELECT *
+  FROM Guest
+  WHERE Email = ?)
+  UNION
+  (SELECT *
+  FROM Guest
+  WHERE Phone = ?);
+`;
+
+con.query(query, [result, result, result], (err, results) => {
+  if (err) {
+    console.error("Failed to fetch guest list:", err);
+    return res.status(500).json({ error: 'Database error' });
+  }
+  res.json(results);
+});
+});
+
 // Add the new route for processing transactions
 app.post('/process-transaction', (req, res) => {
   const { firstName, lastName, email, phone, specialRequests, cardName, cardNumber, expDate, cvv, Check_In, Check_Out, Total_Spent } = req.body;
@@ -64,12 +154,6 @@ app.post('/process-transaction', (req, res) => {
   const queryReservation = `
       INSERT INTO Reservation (Res_ID, Guest_ID, Hotel_ID)
       VALUES (?, ?, ?);
-  `;
-
-  // SQL query to insert into the StayHistory table (including the new `history_ID`)
-  const queryStayHistory = `
-      INSERT INTO StayHistory (History_ID, Guest_ID, Check_In, Check_Out, Room_ID, Hotel_ID, Total)
-      VALUES (?, ?, ?, ?, ?, ?, ?);
   `;
 
   // Insert into the GuestReservation table
@@ -178,7 +262,6 @@ app.post('/checkout', (req, res) => {
 function generateUniqueReservationID() {
   return `R${Math.floor(100000 + Math.random() * 900000)}`;
 }
-
 
 /*---------------------------------- LOGIN/LOGOUT/REGISTER ----------------------------------*/
 

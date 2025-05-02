@@ -23,8 +23,8 @@ function navBar() { // the function that generates the nav bar
                       <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
                         <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
-                        <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
-                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="currentguestlist.html" class="nav-link">Guest List</a></li>
+                        <li class="nav-item"><a href="guestLookup.html" class="nav-link">Guest Lookup</a></li>
                         <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
                         <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                       </ul>
@@ -44,8 +44,8 @@ function navBar() { // the function that generates the nav bar
                       <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
                         <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
-                        <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
-                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="currentguestlist.html" class="nav-link">Guest List</a></li>
+                        <li class="nav-item"><a href="guestLookup.html" class="nav-link">Guest Lookup</a></li>
                         <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
                         <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                       </ul>
@@ -280,3 +280,59 @@ function checkCookie(cookieName) {// Function to check if a cookie exists
 }
 
 /*------------------------------------------------------------------------------------------------------*/
+
+
+
+function generateBox1(rooms) {
+  const container = document.querySelector(".col-lg-9 > .row");
+  container.innerHTML = ""; // Clear previous content
+
+  rooms.forEach((room, i) => {
+    const roomHTML = `<div class="col-sm col-md-6 col-lg-4 ftco-animate">
+							<div class="room" data-room="Suite Room">
+							  <a href="Transaction.html" class="img d-flex justify-content-center align-items-center" style="background-image: url(images/room-1.jpg);">
+								<div class="icon d-flex justify-content-center align-items-center"><span class="icon-search2"></span></div>
+							  </a>
+							  <div class="text p-3 text-center">
+								<h3 class="mb-3"><a href="Transaction.html">Suite Room</a></h3>
+								<p><span class="price mr-2">$120.00</span> <span class="per">per night</span></p>
+								<ul class="list">
+								  <li><span>Max:</span> 3 Persons</li>
+								  <li><span>Size:</span> 45 m²</li>
+								  <li><span>View:</span> Sea View</li>
+								  <li><span>Bed:</span> 1</li>
+								</ul>
+								<hr>
+								<p class="pt-1"><a href="Transaction.html" class="btn-custom">Book Now <span class="icon-long-arrow-right"></span></a></p>
+							  </div>
+							</div>
+						  </div>
+    `;
+    container.insertAdjacentHTML("beforeend", roomHTML);
+  });
+}
+
+
+
+
+function generateBox123(){  
+	document.write(`
+	<div class="col-sm col-md-6 col-lg-4 ftco-animate">
+							<div class="room" data-room="Suite Room">
+							  <a href="Transaction.html" class="img d-flex justify-content-center align-items-center" style="background-image: url(images/room-1.jpg);">
+								<div class="icon d-flex justify-content-center align-items-center"><span class="icon-search2"></span></div>
+							  </a>
+							  <div class="text p-3 text-center">
+								<h3 class="mb-3"><a href="Transaction.html">Suite Room</a></h3>
+								<p><span class="price mr-2">$120.00</span> <span class="per">per night</span></p>
+								<ul class="list">
+								  <li><span>Max:</span> 3 Persons</li>
+								  <li><span>Size:</span> 45 m²</li>
+								  <li><span>View:</span> Sea View</li>
+								  <li><span>Bed:</span> 1</li>
+								</ul>
+								<hr>
+								<p class="pt-1"><a href="Transaction.html" class="btn-custom">Book Now <span class="icon-long-arrow-right"></span></a></p>
+							  </div>
+							</div>
+						  </div>`)};

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Guest Search</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="./functions.js"></script>
+    <script>styleStuff();</script>
+  </head>
+  <body>
+    <!---------------------------- Navigation Bar Start ---------------------------->
+    <script>navBar();</script>
+    <!----------------------------- Navigation Bar End ----------------------------->
+
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+          <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+            <div class="text">
+              <h1 class="mb-4 bread">Guest Search</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-5">
+            <div class="login-wrap p-4 p-md-5">
+              <div class="icon d-flex align-items-center justify-content-center">
+                <span class="icon-lock"></span>
+              </div>
+              <h3 class="text-center mb-4">Enter your details</h3>
+              <form action="/api/searchGuest" method="POST" class="login-form">
+                <!-- Input -->
+                <div class="form-group">
+                  <input type="text" class="form-control rounded-left" placeholder="Last Name, Email or Phone Number" name="input" required>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Login</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="guestListContainer"></div> <!-- Container for dynamically generated table -->
+
+    </section>
+
+    <script>
+        async function loadGuests() {
+          try {
+            const response = await fetch('/api/searchGuest'); // Your backend endpoint
+            const data = await response.json();
+      
+            // Create the table structure dynamically
+            const table = document.createElement('table');
+            table.id = 'guestTable';
+            table.style.width = '100%';
+            table.style.borderCollapse = 'collapse';
+            table.style.marginTop = '20px';
+            table.style.backgroundColor = 'white';
+            table.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+            
+            // Add table header
+            const thead = document.createElement('thead');
+            thead.innerHTML = `
+              <tr style="background-color: #007bff; color: white; font-size: 16px;">
+                <th style="padding: 12px; text-align: left;">Guest ID</th>
+                <th style="padding: 12px; text-align: left;">First Name</th>
+                <th style="padding: 12px; text-align: left;">Last Name</th>
+                <th style="padding: 12px; text-align: left;">Email</th>
+                <th style="padding: 12px; text-align: left;">Phone</th>
+                <th style="padding: 12px; text-align: left;">Address</th>
+              </tr>
+            `;
+      
+            const tbody = document.createElement('tbody');
+            
+            // Populate the table rows with guest data
+            data.forEach(guest => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td style="padding: 12px;">${guest.Guest_ID}</td>
+                <td style="padding: 12px;">${guest.Fname}</td>
+                <td style="padding: 12px;">${guest.Lname}</td>
+                <td style="padding: 12px;">${guest.Email || 'N/A'}</td>
+                <td style="padding: 12px;">${guest.Phone}</td>
+                <td style="padding: 12px;">${guest.Address}</td>
+              `;
+              tbody.appendChild(row);
+            });
+      
+            // Append the header and body to the table
+            table.appendChild(thead);
+            table.appendChild(tbody);
+      
+            // Append the table to the page
+            document.getElementById('guestListContainer').appendChild(table);
+          } catch (err) {
+            console.error('Error loading guest data:', err);
+          }
+        }
+      
+        window.onload = loadGuests;
+      </script>
+      
+
+
+    <!---------------------------- Footer Start ---------------------------->    
+    <script>footer()</script>
+    <!----------------------------- Footer End ----------------------------->    
+
+    <!---------------------------- Loader Start ---------------------------->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+    
+    <!-- JS -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/jquery.animateNumber.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/jquery.timepicker.min.js"></script>
+    <script src="js/scrollax.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&sensor=false"></script>
+    <script src="js/google-map.js"></script>
+    <script src="js/main.js"></script>
+    <!----------------------------- Loader End ----------------------------->    
+  </body>
+</html>

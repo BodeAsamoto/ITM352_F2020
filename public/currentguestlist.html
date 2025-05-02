@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>McNaughton Group</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="./functions.js"></script>
+    <script>styleStuff();</script>
+</head>
+<body>
+  <!---------------------------- Navigation Bar Start ---------------------------->
+<script>navBar();</script>
+<!----------------------------- Navigation Bar End ----------------------------->
+
+<div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text d-flex align-itemd-end justify-content-center">
+      <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+        <div class="text">
+          <h1 class="mb-4 bread">Login</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <h1>Current Guest List</h1>
+  <table id="guestTable">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Check-In Date</th>
+        <th>Check-Out Date</th>
+        <th>Length of Stay (days)</th>
+        <th>Room Number</th>
+        <th>Hotel Name</th>
+        <th>Hotel Location</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function loadGuests() {
+      try {
+        const response = await fetch('/api/currentguests'); // Your backend endpoint
+        const data = await response.json();
+
+        const tbody = document.querySelector('#guestTable tbody');
+        data.forEach(guest => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${guest.First_Name}</td>
+            <td>${guest.Last_Name}</td>
+            <td>${guest.Email || 'N/A'}</td>
+            <td>${guest.Phone}</td>
+            <td>${guest.Check_In_Date.split('T')[0]}</td>
+            <td>${guest.Check_Out_Date.split('T')[0]}</td>
+            <td>${guest.Length_of_Stay}</td>
+            <td>${guest.Room_Number}</td>
+            <td>${guest.Hotel_Name}</td>
+            <td>${guest.Hotel_Location}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      } catch (err) {
+        console.error('Error loading guest data:', err);
+      }
+    }
+
+    window.onload = loadGuests;
+  </script>
+</body>
+</html>

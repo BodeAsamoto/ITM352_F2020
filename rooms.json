@@ -1,0 +1,62 @@
+[
+    {
+      "name": "Suite Room",
+      "price": 120.00,
+      "max_persons": 3,
+      "size": "45 m²",
+      "view": "Sea View",
+      "bed": 1,
+      "image": "images/room-1.jpg",
+      "link": "Transaction.html"
+    },
+    {
+      "name": "Family Room",
+      "price": 200.00,
+      "max_persons": 3,
+      "size": "45 m²",
+      "view": "Sea View",
+      "bed": 1,
+      "image": "images/room-2.jpg",
+      "link": "Transaction.html"
+    },
+    {
+      "name": "Deluxe Room",
+      "price": 150.00,
+      "max_persons": 5,
+      "size": "45 m²",
+      "view": "Sea View",
+      "bed": 2,
+      "image": "images/room-3.jpg",
+      "link": "Transaction.html"
+    },
+    {
+      "name": "Classic Room",
+      "price": 130.00,
+      "max_persons": 5,
+      "size": "45 m²",
+      "view": "Sea View",
+      "bed": 2,
+      "image": "images/room-4.jpg",
+      "link": "Transaction.html"
+    },
+    {
+      "name": "Superior Room",
+      "price": 300.00,
+      "max_persons": 6,
+      "size": "45 m²",
+      "view": "Sea View",
+      "bed": 3,
+      "image": "images/room-5.jpg",
+      "link": "Transaction.html"
+    },
+    {
+      "name": "Luxury Room",
+      "price": 500.00,
+      "max_persons": 5,
+      "size": "45 m²",
+      "view": "Sea View",
+      "bed": 2,
+      "image": "images/room-6.jpg",
+      "link": "Transaction.html"
+    }
+  ]
