@@ -1,42 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guest Check-In</title>
-</head>
-<body>
+  <head>
+    <title>Deluxe – Guest Check-In</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-<h1>Guest Check-In Form</h1>
+    <!-- Google Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i"
+      rel="stylesheet"
+    />
 
-<!-- Form to collect guest details -->
-<form action="/checkin" method="POST">
-    <label for="Guest_ID">Guest ID:</label><br>
-    <input type="text" id="Guest_ID" name="Guest_ID" required><br><br>
+    <!-- CSS dependencies -->
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="css/aos.css" />
+    <link rel="stylesheet" href="css/ionicons.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="css/jquery.timepicker.css" />
+    <link rel="stylesheet" href="css/flaticon.css" />
+    <link rel="stylesheet" href="css/icomoon.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
-    <label for="Fname">First Name:</label><br>
-    <input type="text" id="Fname" name="Fname" required><br><br>
+    <style>
+      .form-section {
+        padding: 60px 0;
+      }
+      .form-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      }
+      .form-container h2 {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
 
-    <label for="Lname">Last Name:</label><br>
-    <input type="text" id="Lname" name="Lname" required><br><br>
+    <!-- NAV -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
+      id="ftco-navbar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Deluxe</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#ftco-nav"
+          aria-controls="ftco-nav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
+            <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+            <li class="nav-item active"><a href="checkin.html" class="nav-link">Check-In</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- END NAV -->
 
-    <label for="Email">Email:</label><br>
-    <input type="email" id="Email" name="Email" required><br><br>
+    <!-- HERO -->
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-8 text-center">
+            <h1 class="mb-3 bread">Guest Check-In</h1>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <label for="Phone">Phone:</label><br>
-    <input type="text" id="Phone" name="Phone" required><br><br>
+    <!-- CHECK-IN FORM -->
+    <section class="form-section">
+      <div class="container">
+        <div class="form-container mx-auto">
+          <h2>Guest Check-In</h2>
+          <form action="checkin-submit.php" method="POST">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="firstName">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
 
-    <label for="Address">Address:</label><br>
-    <input type="text" id="Address" name="Address" required><br><br>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="email">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="phone">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
 
-    <label for="Check_In">Check-In Date:</label><br>
-    <input type="date" id="Check_In" name="Check_In" value="2025-05-01" required><br><br>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="checkinDate">Check-In Date</label>
+                <input
+                  type="text"
+                  id="checkinDate"
+                  name="checkinDate"
+                  class="form-control checkin_date"
+                  placeholder="MM/DD/YYYY"
+                  required
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="checkinTime">Check-In Time</label>
+                <input
+                  type="text"
+                  id="checkinTime"
+                  name="checkinTime"
+                  class="form-control timepicker"
+                  placeholder="HH:MM"
+                  required
+                />
+              </div>
+            </div>
 
-    <label for="Hotel_Name">Hotel Name:</label><br>
-    <input type="text" id="Hotel_Name" name="Hotel_Name" required><br><br>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="roomType">Room Type</label>
+                <select id="roomType" name="roomType" class="form-control" required>
+                  <option value="">Select...</option>
+                  <option>Suite Room</option>
+                  <option>Family Room</option>
+                  <option>Deluxe Room</option>
+                  <option>Classic Room</option>
+                  <option>Superior Room</option>
+                  <option>Luxury Room</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="roomNumber">Room Number</label>
+                <input
+                  type="text"
+                  id="roomNumber"
+                  name="roomNumber"
+                  class="form-control"
+                  placeholder="e.g. 101"
+                  required
+                />
+              </div>
+            </div>
 
-    <input type="submit" value="Submit">
-</form>
+            <div class="form-group">
+              <label for="notes">Special Requests / Notes</label>
+              <textarea
+                id="notes"
+                name="notes"
+                class="form-control"
+                rows="3"
+                placeholder="Allergies, late arrival, etc."
+              ></textarea>
+            </div>
 
-</body>
+            <button type="submit" class="btn btn-primary btn-block py-2">
+              Confirm Check-In
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Deluxe Hotel</h2>
+              <p>Far far away, behind the word mountains…</p>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Have Questions?</h2>
+              <ul class="block-23">
+                <li>
+                  <span class="icon icon-map-marker"></span> 203 Fake St.,
+                  Mountain View, CA
+                </li>
+                <li>
+                  <a href="#"><span class="icon icon-phone"></span> +2 392 3929
+                  210</a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon icon-envelope"></span>
+                  info@yourdomain.com</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <p>
+              &copy;<script>document.write(new Date().getFullYear());</script>
+              All rights reserved | Template by Colorlib
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JS dependencies -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/jquery.animateNumber.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/jquery.timepicker.min.js"></script>
+    <script src="js/scrollax.min.js"></script>
+    <script src="js/google-map.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+      // initialize datepicker & timepicker
+      $('.checkin_date').datepicker({ autoclose: true });
+      $('.timepicker').timepicker();
+    </script>
+  </body>
 </html>
