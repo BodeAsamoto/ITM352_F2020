@@ -107,9 +107,6 @@ app.set('view engine', 'ejs');
 // Set the directory for views (EJS files)
 app.set('views', __dirname + '/views');
 
-// Middleware to parse incoming request bodies
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.post('/toTransaction', function (request, response) {
   const roomType = request.body.roomType;
@@ -124,10 +121,8 @@ app.post('/toTransaction', function (request, response) {
   console.log('Session after storing roomType:', request.session.reservation);
 
   // Render the transaction page and pass session data to the EJS template
-  response.render('transaction', {
-    sessionData: request.session // Pass session data to the view
+  response.redirect('./transactions.html')
   });
-});
 
 // API route to get room data
 app.get('/api/rooms', (req, res) => {

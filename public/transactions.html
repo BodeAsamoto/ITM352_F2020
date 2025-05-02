@@ -13,18 +13,6 @@
 <script>navBar();</script>
 <!----------------------------- Navigation Bar End ----------------------------->
 
-<h1>Transaction Page</h1>
-<p>Session Data:</p>
-
-<!-- Print session data directly on the page -->
-<pre id="sessionData"><%= JSON.stringify(sessionData, null, 2) %></pre>
-
-<script>
-  // Here, you can also access sessionData from JavaScript if you need to manipulate it
-  const sessionData = <%- JSON.stringify(sessionData) %>;
-  console.log(sessionData);  // Example: print session data in the browser console
-</script>
-
 <script>box()</script>
 
 <!---------------------------- Footer Start ---------------------------->    

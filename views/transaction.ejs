@@ -12,19 +12,24 @@
 <script>navBar();</script>
 <!----------------------------- Navigation Bar End ----------------------------->
 
-<h1>Transaction Page</h1>
-<p>Session Data:</p>
-
-<!-- Print session data directly on the page -->
-<pre id="sessionData"><%= JSON.stringify(sessionData, null, 2) %></pre>
+    <!-- Make sure session data is inside a container and positioned correctly -->
+    <div id="sessionDataContainer">
+        <!-- This is where the session data will be displayed -->
+        <div id="sessionData"></div>
+      </div>
 
 <script>
-  // Here, you can also access sessionData from JavaScript if you need to manipulate it
-  const sessionData = <%- JSON.stringify(sessionData) %>;
-  console.log(sessionData);  // Example: print session data in the browser console
-</script>
+  // Access the session data passed from the server and inject it into JavaScript
+  const sessionData = <%- JSON.stringify(sessionData) %>;  // Use raw output to inject the session data into JavaScript
 
-<script>box()</script>
+  // Access roomType from sessionData
+  const roomType = sessionData.reservation.roomType;
+
+  // Print the roomType value inside the div with id="sessionData"
+  document.getElementById('sessionData').textContent = roomType;
+  
+  console.log(sessionData);  // Log entire session data in the console (for debugging)
+</script>
 
 <!---------------------------- Footer Start ---------------------------->    
 <div id="footer-container"></div>
