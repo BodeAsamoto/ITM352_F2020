@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Check-In</title>
+</head>
+<body>
+
+<h1>Guest Check-In Form</h1>
+
+<!-- Form to collect guest details -->
+<form action="/checkin" method="POST">
+    <label for="Guest_ID">Guest ID:</label><br>
+    <input type="text" id="Guest_ID" name="Guest_ID" required><br><br>
+
+    <label for="Fname">First Name:</label><br>
+    <input type="text" id="Fname" name="Fname" required><br><br>
+
+    <label for="Lname">Last Name:</label><br>
+    <input type="text" id="Lname" name="Lname" required><br><br>
+
+    <label for="Email">Email:</label><br>
+    <input type="email" id="Email" name="Email" required><br><br>
+
+    <label for="Phone">Phone:</label><br>
+    <input type="text" id="Phone" name="Phone" required><br><br>
+
+    <label for="Address">Address:</label><br>
+    <input type="text" id="Address" name="Address" required><br><br>
+
+    <label for="Check_In">Check-In Date:</label><br>
+    <input type="date" id="Check_In" name="Check_In" value="2025-05-01" required><br><br>
+
+    <label for="Hotel_Name">Hotel Name:</label><br>
+    <input type="text" id="Hotel_Name" name="Hotel_Name" required><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

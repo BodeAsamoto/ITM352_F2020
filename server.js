@@ -34,14 +34,51 @@ var con = mysql.createConnection({// Actual DB connection occurs here
   host: '127.0.0.1',
   user: "root",
   port: 3306,
-  database: "hpc", // CHANGE THIS
+  database: "RHW_database", // CHANGE THIS
   password: ""
 }); 
 
 con.connect(function (err) {// Throws error or confirms connection
   if (err) throw err;
  console.log("Connected!");
-});*/
+}); *\
+
+/*----------------------------- Check-In Route (Add this new route) ---------------------*/
+app.post('/checkin', (req, res) => {
+  const { Guest_ID, Fname, Lname, Email, Phone, Address, Check_In, Hotel_Name } = req.body;
+
+  const queryGuest = `
+      INSERT INTO Guest (Guest_ID, Fname, Lname, Email, Phone, Address)
+      VALUES (?, ?, ?, ?, ?, ?);
+  `;
+  
+  const queryReservation = `
+      INSERT INTO GuestReservation (Guest_ID, Res_ID, Check_In, Hotel_Name)
+      VALUES (?, ?, ?, ?);
+  `;
+
+  const Res_ID = generateUniqueReservationID(); // Unique ID generation
+
+  con.query(queryGuest, [Guest_ID, Fname, Lname, Email, Phone, Address], (err) => {
+      if (err) {
+          console.error('Error inserting into Guest:', err);
+          return res.status(500).send('Error during check-in.');
+      }
+
+      con.query(queryReservation, [Guest_ID, Res_ID, Check_In, Hotel_Name], (err) => {
+          if (err) {
+              console.error('Error inserting into GuestReservation:', err);
+              return res.status(500).send('Error during check-in.');
+          }
+          res.redirect('/checkin-success.html'); // Redirect on success
+      });
+  });
+});
+
+/*------------------------- Helper Function for Unique Reservation ID -------------------*/
+function generateUniqueReservationID() {
+  return `R${Math.floor(100000 + Math.random() * 900000)}`;
+}
 
 /*---------------------------------- LOGIN/LOGOUT/REGISTER ----------------------------------*/
 
