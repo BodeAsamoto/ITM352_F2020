@@ -29,7 +29,7 @@ app.all('*', function (request, response, next){// this function also makes rese
 });
 
 /*---------------------------------- DATABASE CONNECTION ----------------------------------*/
-/* console.log("Connecting to localhost..."); 
+ console.log("Connecting to localhost..."); 
 var con = mysql.createConnection({// Actual DB connection occurs here
   host: '127.0.0.1',
   user: "root",
@@ -41,7 +41,7 @@ var con = mysql.createConnection({// Actual DB connection occurs here
 con.connect(function (err) {// Throws error or confirms connection
   if (err) throw err;
  console.log("Connected!");
-}); *\
+});
 
 /*----------------------------- Check-In Route (Add this new route) ---------------------*/
 app.post('/checkin', (req, res) => {
@@ -75,10 +75,46 @@ app.post('/checkin', (req, res) => {
   });
 });
 
+/*---------------------------------- Check-Out Route ----------------------------------*/
+app.post('/checkout', (req, res) => {
+  const { Guest_ID } = req.body;  // Get the Guest_ID from the form
+
+  // SQL query to delete the guest from the Guest table
+  const queryDeleteGuest = `
+      DELETE FROM Guest WHERE Guest_ID = ?;
+  `;
+
+  // SQL query to remove any associated records from GuestReservation table (optional)
+  const queryDeleteReservation = `
+      DELETE FROM GuestReservation WHERE Guest_ID = ?;
+  `;
+
+  // Delete from GuestReservation table first
+  con.query(queryDeleteReservation, [Guest_ID], (err) => {
+      if (err) {
+          console.error('Error deleting from GuestReservation:', err);
+          return res.status(500).send('Error during check-out process.');
+      }
+
+      // Then, delete from Guest table
+      con.query(queryDeleteGuest, [Guest_ID], (err) => {
+          if (err) {
+              console.error('Error deleting from Guest:', err);
+              return res.status(500).send('Error during check-out process.');
+          }
+
+          console.log(`Guest with ID ${Guest_ID} has been checked out and removed.`);
+          res.redirect('/checkout-success.html');  // Redirect to a success page or display a message
+      });
+  });
+});
+
+
 /*------------------------- Helper Function for Unique Reservation ID -------------------*/
 function generateUniqueReservationID() {
   return `R${Math.floor(100000 + Math.random() * 900000)}`;
 }
+
 
 /*---------------------------------- LOGIN/LOGOUT/REGISTER ----------------------------------*/
 
