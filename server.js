@@ -47,31 +47,37 @@ con.connect(function (err) {// Throws error or confirms connection
 app.post('/checkin', (req, res) => {
   const { Guest_ID, Fname, Lname, Email, Phone, Address, Check_In, Hotel_Name } = req.body;
 
+  // SQL query to insert into the Guest table
   const queryGuest = `
-      INSERT INTO Guest (Guest_ID, Fname, Lname, Email, Phone, Address)
-      VALUES (?, ?, ?, ?, ?, ?);
+    INSERT INTO Guest (Guest_ID, Fname, Lname, Email, Phone, Address)
+    VALUES (?, ?, ?, ?, ?, ?);
   `;
   
+  // SQL query to insert into the GuestReservation table
   const queryReservation = `
-      INSERT INTO GuestReservation (Guest_ID, Res_ID, Check_In, Hotel_Name)
-      VALUES (?, ?, ?, ?);
+    INSERT INTO GuestReservation (Guest_ID, Res_ID, Check_In, Hotel_Name)
+    VALUES (?, ?, ?, ?);
   `;
 
   const Res_ID = generateUniqueReservationID(); // Unique ID generation
 
+  // Insert guest details into the Guest table
   con.query(queryGuest, [Guest_ID, Fname, Lname, Email, Phone, Address], (err) => {
-      if (err) {
-          console.error('Error inserting into Guest:', err);
-          return res.status(500).send('Error during check-in.');
-      }
+    if (err) {
+      console.error('Error inserting into Guest:', err);
+      return res.redirect('/checkin-success.html'); // Redirect even if error occurs
+    }
 
-      con.query(queryReservation, [Guest_ID, Res_ID, Check_In, Hotel_Name], (err) => {
-          if (err) {
-              console.error('Error inserting into GuestReservation:', err);
-              return res.status(500).send('Error during check-in.');
-          }
-          res.redirect('/checkin-success.html'); // Redirect on success
-      });
+    // Insert reservation details into the GuestReservation table
+    con.query(queryReservation, [Guest_ID, Res_ID, Check_In, Hotel_Name], (err) => {
+        if (err) {
+            console.error('Error inserting into GuestReservation:', err);
+            return res.redirect('/checkin-success.html'); // Redirect even if error occurs
+        }
+
+        // Redirect to checkin-success.html after successful check-in
+        res.redirect('/checkin-success.html'); // Successful redirection
+    });
   });
 });
 
