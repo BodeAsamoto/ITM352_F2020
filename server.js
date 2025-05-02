@@ -43,6 +43,64 @@ con.connect(function (err) {// Throws error or confirms connection
  console.log("Connected!");
 });
 
+/*----------------------------- Transaction Route (Add this new route) ---------------------*/
+// Add the new route for processing transactions
+app.post('/process-transaction', (req, res) => {
+  const { firstName, lastName, email, phone, specialRequests, cardName, cardNumber, expDate, cvv, Check_In, Check_Out, Total_Spent } = req.body;
+
+  // Generate unique IDs
+  const guestId = Math.floor(Math.random() * 1000000);  // Example for generating a random ID for Guest
+  const resId = Math.floor(Math.random() * 1000000);    // Generate Reservation ID
+  const hotelId = Math.floor(Math.random() * 3) + 1;    // Randomly assign Hotel_ID (1, 2, or 3)
+  const historyId = Math.floor(Math.random() * 1000000);  // Randomly generate a unique history ID for StayHistory
+
+  // SQL query to insert into the GuestReservation table
+  const queryGuestReservation = `
+      INSERT INTO GuestReservation (Guest_ID, Res_ID, Check_In, Check_Out, Total_Spent, Special_Requests)
+      VALUES (?, ?, ?, ?, ?, ?);
+  `;
+
+  // SQL query to insert into the Reservation table
+  const queryReservation = `
+      INSERT INTO Reservation (Res_ID, Guest_ID, Hotel_ID)
+      VALUES (?, ?, ?);
+  `;
+
+  // SQL query to insert into the StayHistory table (including the new `history_ID`)
+  const queryStayHistory = `
+      INSERT INTO StayHistory (History_ID, Guest_ID, Check_In, Check_Out, Room_ID, Hotel_ID, Total)
+      VALUES (?, ?, ?, ?, ?, ?, ?);
+  `;
+
+  // Insert into the GuestReservation table
+  con.query(queryGuestReservation, [guestId, resId, Check_In, Check_Out, Total_Spent, specialRequests], (err) => {
+      if (err) {
+          console.error('Error inserting into GuestReservation:', err);
+          return res.status(500).send('Error during transaction process.');
+      }
+
+      // Insert into the Reservation table
+      con.query(queryReservation, [resId, guestId, hotelId], (err) => {
+          if (err) {
+              console.error('Error inserting into Reservation:', err);
+              return res.status(500).send('Error during transaction process.');
+          }
+
+          // Insert into StayHistory table
+          const roomId = Math.floor(Math.random() * 100);  // Example room ID, could be selected based on availability
+          con.query(queryStayHistory, [historyId, guestId, Check_In, Check_Out, roomId, hotelId, Total_Spent], (err) => {
+              if (err) {
+                  console.error('Error inserting into StayHistory:', err);
+                  return res.status(500).send('Error during transaction process.');
+              }
+
+              // Redirect to the success page after successful insertion
+              res.redirect('/transaction-success.html');
+          });
+      });
+  });
+});
+
 /*----------------------------- Check-In Route (Add this new route) ---------------------*/
 app.post('/checkin', (req, res) => {
   const { Guest_ID, Fname, Lname, Email, Phone, Address, Check_In, Hotel_Name } = req.body;
