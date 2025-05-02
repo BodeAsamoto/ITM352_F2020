@@ -1,21 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guest Check-Out</title>
-</head>
-<body>
+  <head>
+    <title>Deluxe – Guest Check-Out</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-<h1>Guest Check-Out Form</h1>
+    <!-- Google Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i"
+      rel="stylesheet"
+    />
 
-<!-- Form to collect guest check-out details -->
-<form action="/checkout" method="POST">
-    <label for="Guest_ID">Guest ID:</label><br>
-    <input type="text" id="Guest_ID" name="Guest_ID" required><br><br>
+    <!-- CSS dependencies -->
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="css/aos.css" />
+    <link rel="stylesheet" href="css/ionicons.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="css/jquery.timepicker.css" />
+    <link rel="stylesheet" href="css/flaticon.css" />
+    <link rel="stylesheet" href="css/icomoon.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
-    <input type="submit" value="Check-Out">
-</form>
+    <style>
+      .form-section {
+        padding: 60px 0;
+      }
+      .form-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      }
+      .form-container h2 {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
 
-</body>
+    <!-- NAV -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
+      id="ftco-navbar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Deluxe</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#ftco-nav"
+          aria-controls="ftco-nav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
+            <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
+            <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+            <li class="nav-item active"><a href="checkout.html" class="nav-link">Check-Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- END NAV -->
+
+    <!-- HERO -->
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-8 text-center">
+            <h1 class="mb-3 bread">Guest Check-Out</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECK-OUT FORM -->
+    <section class="form-section">
+      <div class="container">
+        <div class="form-container mx-auto">
+          <h2>Guest Check-Out</h2>
+          <form action="/checkout" method="POST">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="Guest_ID">Guest ID:</label>
+                <input type="text" id="Guest_ID" name="Guest_ID" class="form-control" required>
+              </div>
+            </div>
+
+            <button type="submit" value="Submit" class="btn btn-primary btn-block py-2">
+              Confirm Check-Out
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Deluxe Hotel</h2>
+              <p>Far far away, behind the word mountains…</p>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Have Questions?</h2>
+              <ul class="block-23">
+                <li>
+                  <span class="icon icon-map-marker"></span> 203 Fake St.,
+                  Mountain View, CA
+                </li>
+                <li>
+                  <a href="#"><span class="icon icon-phone"></span> +2 392 3929
+                  210</a>
+                </li>
+                <li>
+                  <a href="#"><span class="icon icon-envelope"></span>
+                  info@yourdomain.com</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <p>
+              &copy;<script>document.write(new Date().getFullYear());</script>
+              All rights reserved | Template by Colorlib
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
