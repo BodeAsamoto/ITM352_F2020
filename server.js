@@ -29,19 +29,19 @@ app.all('*', function (request, response, next){// this function also makes rese
 });
 
 /*---------------------------------- DATABASE CONNECTION ----------------------------------*/
-/* console.log("Connecting to localhost..."); 
+ console.log("Connecting to localhost..."); 
 var con = mysql.createConnection({// Actual DB connection occurs here
   host: '127.0.0.1',
   user: "root",
   port: 3306,
-  database: "hpc", // CHANGE THIS
+  database: "RHW_database", // CHANGE THIS
   password: ""
 }); 
 
 con.connect(function (err) {// Throws error or confirms connection
   if (err) throw err;
  console.log("Connected!");
-});*/
+});
 
 /*---------------------------------- LOGIN/LOGOUT/REGISTER ----------------------------------*/
 
