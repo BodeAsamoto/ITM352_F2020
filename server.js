@@ -83,7 +83,63 @@ app.get('/api/currentguests', (req, res) => {
   });
 });
 
+/*----------------------------- Parameter Query ---------------------*/
 
+app.post('/api/searchGuest', (req, res) => {
+  const result = req.body.input;
+  // Redirect to results.html with the input as a query string
+  res.redirect(`/guestSearchResult.html?query=${encodeURIComponent(result)}`);
+});
+
+app.get('/api/guestinfo', (req, res) => {
+  const query = `
+    SELECT *
+    FROM guest
+    WHERE Lname LIKE 'Doe';
+  `;
+  
+  con.query(query, (err, results) => {
+    if (err) {
+      console.error("Failed to fetch guest list:", err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(results);
+  });
+
+});
+
+app.post('/api/searchGuest1', (req, res) => {
+  const result = req.body.input;
+  req.session.GuestLookup = result;  // Store the value in session
+  // Redirect to results.html with the input as a query string
+  res.redirect(`/guestSearchResult.html`);
+});
+
+app.get('/api/guestinfo1', (req, res) => {
+  const guestLookup = req.session.GuestLookup;
+  const query = `
+    (SELECT *
+    FROM guest
+    WHERE Lname LIKE ?)
+    UNION
+    (SELECT *
+    FROM guest
+    WHERE Email LIKE ?)
+    UNION
+    (SELECT *
+    FROM guest
+    WHERE Phone LIKE ?);
+  `;
+  
+  con.query(query, [guestLookup, guestLookup, guestLookup], (err, results) => {
+    if (err) {
+      console.error("Failed to fetch guest list:", err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(results);
+  });
+
+});
 
 /*----------------------------- Transaction Route (Add this new route) ---------------------*/
 
@@ -132,30 +188,7 @@ app.get('/api/rooms', (req, res) => {
   });
 });
 
-app.post('/api/searchGuest', (req, res) => {
-  const result = req.body.input;
-  const query = `
-  (SELECT *
-  FROM Guest
-  WHERE Lname = ?)
-  UNION
-  (SELECT *
-  FROM Guest
-  WHERE Email = ?)
-  UNION
-  (SELECT *
-  FROM Guest
-  WHERE Phone = ?);
-`;
 
-con.query(query, [result, result, result], (err, results) => {
-  if (err) {
-    console.error("Failed to fetch guest list:", err);
-    return res.status(500).json({ error: 'Database error' });
-  }
-  res.json(results);
-});
-});
 
 // Add the new route for processing transactions
 app.post('/process-transaction', (req, res) => {

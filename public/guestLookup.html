@@ -34,7 +34,7 @@
                 <span class="icon-lock"></span>
               </div>
               <h3 class="text-center mb-4">Enter your details</h3>
-              <form action="/api/searchGuest" method="POST" class="login-form">
+              <form action="/api/searchGuest1" method="POST" class="login-form">
                 <!-- Input -->
                 <div class="form-group">
                   <input type="text" class="form-control rounded-left" placeholder="Last Name, Email or Phone Number" name="input" required>
@@ -53,67 +53,6 @@
       <div id="guestListContainer"></div> <!-- Container for dynamically generated table -->
 
     </section>
-
-    <script>
-        async function loadGuests() {
-          try {
-            const response = await fetch('/api/searchGuest'); // Your backend endpoint
-            const data = await response.json();
-      
-            // Create the table structure dynamically
-            const table = document.createElement('table');
-            table.id = 'guestTable';
-            table.style.width = '100%';
-            table.style.borderCollapse = 'collapse';
-            table.style.marginTop = '20px';
-            table.style.backgroundColor = 'white';
-            table.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-            
-            // Add table header
-            const thead = document.createElement('thead');
-            thead.innerHTML = `
-              <tr style="background-color: #007bff; color: white; font-size: 16px;">
-                <th style="padding: 12px; text-align: left;">Guest ID</th>
-                <th style="padding: 12px; text-align: left;">First Name</th>
-                <th style="padding: 12px; text-align: left;">Last Name</th>
-                <th style="padding: 12px; text-align: left;">Email</th>
-                <th style="padding: 12px; text-align: left;">Phone</th>
-                <th style="padding: 12px; text-align: left;">Address</th>
-              </tr>
-            `;
-      
-            const tbody = document.createElement('tbody');
-            
-            // Populate the table rows with guest data
-            data.forEach(guest => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                <td style="padding: 12px;">${guest.Guest_ID}</td>
-                <td style="padding: 12px;">${guest.Fname}</td>
-                <td style="padding: 12px;">${guest.Lname}</td>
-                <td style="padding: 12px;">${guest.Email || 'N/A'}</td>
-                <td style="padding: 12px;">${guest.Phone}</td>
-                <td style="padding: 12px;">${guest.Address}</td>
-              `;
-              tbody.appendChild(row);
-            });
-      
-            // Append the header and body to the table
-            table.appendChild(thead);
-            table.appendChild(tbody);
-      
-            // Append the table to the page
-            document.getElementById('guestListContainer').appendChild(table);
-          } catch (err) {
-            console.error('Error loading guest data:', err);
-          }
-        }
-      
-        window.onload = loadGuests;
-      </script>
-      
-
-
     <!---------------------------- Footer Start ---------------------------->    
     <script>footer()</script>
     <!----------------------------- Footer End ----------------------------->    

@@ -44,7 +44,7 @@
   <script>
     async function loadGuests() {
       try {
-        const response = await fetch('/api/searchGuest'); // Your backend endpoint
+        const response = await fetch('/api/guestinfo1'); // Your backend endpoint
         const data = await response.json();
 
         const tbody = document.querySelector('#guestTable tbody');
@@ -52,9 +52,9 @@
           const row = document.createElement('tr');
           row.innerHTML = `
             <td>${guest.Guest_ID}</td>
-            <td>${guest.First_Name}</td>
-            <td>${guest.Last_Name}</td>
-            <td>${guest.Email || 'N/A'}</td>
+            <td>${guest.Fname}</td>
+            <td>${guest.Lname}</td>
+            <td>${guest.Email}</td>
             <td>${guest.Phone}</td>
             <td>${guest.Address}</td>
           `;
@@ -67,5 +67,7 @@
 
     window.onload = loadGuests;
   </script>
+<script>footer()</script>
+
 </body>
 </html>
