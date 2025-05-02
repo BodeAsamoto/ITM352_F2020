@@ -7,6 +7,89 @@ function faviconInfo(){ //contains favicon and css information
     `)
 }
 
+function navBar1() {
+  // Check the cookies to determine the login and staff type
+  let isloggedin = getCookie("loggedIn");
+  let CookieStaff = getCookie("staff");
+  
+  // Create the navbar content
+  let navbarContent = '';
+
+  if (isloggedin == 1) {
+    if (CookieStaff == 1) {
+      navbarContent = `
+        <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+          <div class="container">
+            <a class="navbar-brand" href="index.html">McNaughton Group Staff View</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="oi oi-menu"></span> Menu
+            </button>
+            <div class="collapse navbar-collapse" id="ftco-nav">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
+                <li class="nav-item"><a href="currentguestlist.html" class="nav-link">Guest List</a></li>
+                <li class="nav-item"><a href="guestLookup.html" class="nav-link">Guest Lookup</a></li>
+                <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      `;
+    } else if (CookieStaff == 2) {
+      navbarContent = `
+        <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+          <div class="container">
+            <a class="navbar-brand" href="index.html">McNaughton Group Manager View</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="oi oi-menu"></span> Menu
+            </button>
+            <div class="collapse navbar-collapse" id="ftco-nav">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
+                <li class="nav-item"><a href="currentguestlist.html" class="nav-link">Guest List</a></li>
+                <li class="nav-item"><a href="guestLookup.html" class="nav-link">Guest Lookup</a></li>
+                <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      `;
+    }
+  } else {
+    navbarContent = `
+      <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">McNaughton Group</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+          </button>
+          <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+              <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
+              <li class="nav-item"><a href="restaurant.html" class="nav-link">Restaurant</a></li>
+              <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+              <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+              <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    `;
+  }
+
+  // Inject the navbar content into the navbar-container div
+  document.getElementById('navbar-container').innerHTML = navbarContent;
+}
+
+
+
+
+
 function navBar() { // the function that generates the nav bar
   let isloggedin = getCookie("loggedIn");
   let CookieStaff = getCookie("staff");
@@ -182,6 +265,9 @@ function footer() {
     </footer>`)
 }
 
+
+
+
 function getCurrentDate() { // Function to get the current date in the format YYYY-MM-DD
     // Function from ChatGPT using the "make me a function that gets todays date using javascript" prompt
     const today = new Date();
@@ -283,33 +369,135 @@ function checkCookie(cookieName) {// Function to check if a cookie exists
 
 
 
-function generateBox1(rooms) {
-  const container = document.querySelector(".col-lg-9 > .row");
-  container.innerHTML = ""; // Clear previous content
+function box() {
+document.write(`
+    <!-- HERO SECTION -->
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text d-flex align-items-end justify-content-center">
+                <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+                    <div class="text">
+                        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home</a></span> <span>Checkout</span></p>
+                        <h1 class="mb-4 bread">Checkout</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  rooms.forEach((room, i) => {
-    const roomHTML = `<div class="col-sm col-md-6 col-lg-4 ftco-animate">
-							<div class="room" data-room="Suite Room">
-							  <a href="Transaction.html" class="img d-flex justify-content-center align-items-center" style="background-image: url(images/room-1.jpg);">
-								<div class="icon d-flex justify-content-center align-items-center"><span class="icon-search2"></span></div>
-							  </a>
-							  <div class="text p-3 text-center">
-								<h3 class="mb-3"><a href="Transaction.html">Suite Room</a></h3>
-								<p><span class="price mr-2">$120.00</span> <span class="per">per night</span></p>
-								<ul class="list">
-								  <li><span>Max:</span> 3 Persons</li>
-								  <li><span>Size:</span> 45 m²</li>
-								  <li><span>View:</span> Sea View</li>
-								  <li><span>Bed:</span> 1</li>
-								</ul>
-								<hr>
-								<p class="pt-1"><a href="Transaction.html" class="btn-custom">Book Now <span class="icon-long-arrow-right"></span></a></p>
-							  </div>
-							</div>
-						  </div>
-    `;
-    container.insertAdjacentHTML("beforeend", roomHTML);
-  });
+    <!-- TRANSACTION FORM -->
+    <section class="ftco-section bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="bg-white p-4 ftco-animate">
+                        <h3 class="mb-4">Guest & Payment Information</h3>
+                        <form id="myForm" action="/process-transaction" method="POST">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" required />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="specialRequests">Special Requests (Optional)</label>
+                                <textarea class="form-control" id="specialRequests" name="specialRequests" rows="3"></textarea>
+                            </div>
+                            <hr />
+                            <div class="form-group">
+                                <label for="cardName">Cardholder Name</label>
+                                <input type="text" class="form-control" id="cardName" name="cardName" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number</label>
+                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" required />
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="expDate">Expiration Date</label>
+                                    <input type="text" class="form-control" id="expDate" name="expDate" placeholder="MM/YY" maxlength="5" required />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" class="form-control" id="cvv" name="cvv" maxlength="4" placeholder="123" required />
+                                </div>
+                            </div>
+                            <!-- New fields for Check-In and Check-Out -->
+                            <div class="form-group col-md-6">
+                                <label for="Check_In">Check-In Date:</label>
+                                <input type="date" class="form-control" id="Check_In" name="Check_In" required />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Check_Out">Check-Out Date:</label>
+                                <input type="date" class="form-control" id="Check_Out" name="Check_Out" required />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Total_Spent">Total Spent:</label>
+                                <input type="number" class="form-control" id="Total_Spent" name="Total_Spent" required />
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block py-2 mt-3">Confirm Transaction</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right: Price Details -->
+                <div class="col-lg-5">
+                    <div class="bg-white p-4 ftco-animate">
+                        <h3 class="mb-4">Price Details</h3>
+                        <div class="d-flex justify-content-between mb-1">
+                            <div>
+                                <h5 class="mb-0">meow</h5>
+
+                                <small class="text-muted">Hotel Renew · 1 Night Stay</small>
+                            </div>
+                            <h5 class="mb-0">$129.00</h5>
+                        </div>
+                        <hr />
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Gift or discount code" form="myForm"/>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button">Apply</button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-1">Hotel Fee</p>
+                            <p class="mb-1">$49.80</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-1">Taxes</p>
+                            <p class="mb-1">$7.24</p>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-1 font-weight-bold">Subtotal</p>
+                            <p class="mb-1 font-weight-bold">$57.04</p>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-0">Total</h5>
+                                <small class="text-muted">Including $2.24 in HI taxes</small>
+                            </div>
+                            <h3 class="mb-0">$186.04</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>`)
 }
 
 

@@ -95,10 +95,38 @@ app.post('/get_reservation', function(request, response, next){
   response.send(JSON.stringify(request.session.reservation));
 });
 
+app.get('/api/getReservation', (req, res) => {
+  const roomType = req.session.reservation ? req.session.reservation.roomType : 'Not available';
+  res.json({ roomType });
+});
+
+
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+
+// Set the directory for views (EJS files)
+app.set('views', __dirname + '/views');
+
+// Middleware to parse incoming request bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.post('/toTransaction', function (request, response) {
   const roomType = request.body.roomType;
-  response.redirect(`./transaction.html?roomType=${encodeURIComponent(roomType)}`);
+
+  // Store roomType in the session
+  request.session.reservation = {
+    ...request.session.reservation,
+    roomType: roomType
+  };
+
+  // Log the session data
+  console.log('Session after storing roomType:', request.session.reservation);
+
+  // Render the transaction page and pass session data to the EJS template
+  response.render('transaction', {
+    sessionData: request.session // Pass session data to the view
+  });
 });
 
 // API route to get room data
