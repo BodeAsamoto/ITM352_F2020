@@ -6,6 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="./functions.js"></script>
     <script>styleStuff();</script>
+    <style>
+      h1 {
+  text-align: center; /* This centers the text */
+  margin-top: 20px;   /* Optional: Adds some space above the h1 */
+  font-size: 2rem;    /* Optional: Adjust font size */
+}
+      /* Center the table and give it a defined width */
+      #guestTable {
+        width: 80%; /* Adjust the width as needed */
+        margin: 20px auto; /* Center horizontally */
+        border-collapse: collapse; /* Remove space between cells */
+        background-color: #f9f9f9; /* Light background color */
+      }
+
+      /* Table header style */
+      #guestTable thead {
+        background-color: #d1d1d1; /* Blue background for header */
+        color: white; /* White text */
+      }
+
+      #guestTable th, #guestTable td {
+        padding: 12px 15px; /* Add some padding to make the cells look nicer */
+        text-align: left; /* Left align text */
+        border: 1px solid #ddd; /* Light border for clarity */
+      }
+
+      /* Alternate row coloring */
+      #guestTable tr:nth-child(even) {
+        background-color: #f2f2f2; /* Light grey background for even rows */
+      }
+
+      /* Hover effect for rows */
+      #guestTable tr:hover {
+        background-color: #ddd; /* Change background color when hovering over a row */
+      }</style>
 </head>
 <body>
   <!---------------------------- Navigation Bar Start ---------------------------->
