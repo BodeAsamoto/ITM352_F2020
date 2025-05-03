@@ -57,6 +57,19 @@ con.connect(function (err) {// Throws error or confirms connection
 });
 
 
+/*---------------------------------- daily guest checkin list ----------------------------------*/
+app.get('/api/guestcheckintoday', (req, res) => {
+  const query = 'SELECT * FROM GuestCheckInToday';
+  con.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching guest check-ins:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(results);
+  });
+});
+
+
 /*---------------------------------- current guest list attempt 2 ----------------------------------*/
 app.get('/api/currentguests', (req, res) => {
   const query = `
