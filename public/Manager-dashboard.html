@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hotel Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom Styles -->
+  <style>
+    body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
+    .navbar { backdrop-filter: blur(10px); background: rgba(255,255,255,0.8); }
+    .card { border: none; border-radius: .75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .header { padding: 2rem 1rem; text-align: center; }
+    .header h1 { font-weight: 600; }
+    .footer { padding: 1rem 0; text-align: center; font-size: .875rem; color: #6c757d; }
+  </style>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Modern Navbar with Dropdowns -->
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">HotelDash</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="reportsDropdown">
+              <li><a class="dropdown-item" href="#">Daily Check-In</a></li>
+              <li><a class="dropdown-item" href="#">Daily Check-Out</a></li>
+              <li><a class="dropdown-item" href="#">Current Guest List</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="formsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Forms</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="formsDropdown">
+              <li><a class="dropdown-item" href="#">Inventory Update</a></li>
+              <li><a class="dropdown-item" href="#">Supplier Add Form</a></li>
+              <li><a class="dropdown-item" href="#">Cancellation Form</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="header bg-white mb-4">
+    <h1>Hotel Operations Dashboard</h1>
+    <p class="text-muted">Real-time insights into rooms, occupancy, and inventory</p>
+  </div>
+
+  <!-- Dashboard Grid -->
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card p-3 bg-white">
+          <div class="card-body">
+            <h5 class="card-title">Arrival Rooms</h5>
+            <canvas id="arrivalChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card p-3 bg-white">
+          <div class="card-body">
+            <h5 class="card-title">Departure Rooms</h5>
+            <canvas id="departureChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card p-3 bg-white">
+          <div class="card-body">
+            <h5 class="card-title">Guest Occupancy (%)</h5>
+            <canvas id="occupancyChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card p-3 bg-white">
+          <div class="card-body">
+            <h5 class="card-title">Inventory Status</h5>
+            <canvas id="inventoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card p-3 bg-white">
+          <div class="card-body">
+            <h5 class="card-title">Room Availability</h5>
+            <canvas id="availabilityChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-4">
+        <div class="card p-3 bg-gradient-primary text-white">
+          <div class="card-body text-center">
+            <h5 class="card-title">Key Hotels</h5>
+            <ul class="list-unstyled mb-0">
+              <li>Hotel Renew: <strong>92/120</strong></li>
+              <li>Lotus Honolulu: <strong>85/95</strong></li>
+              <li>Waikiki Malia: <strong>130/150</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    &copy; <span id="year"></span> HotelDash. All rights reserved.
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Chart Data Initialization
+    new Chart(document.getElementById('arrivalChart'), { type:'bar', data:{ labels:['Mon','Tue','Wed','Thu','Fri'], datasets:[{ label:'Arrivals', data:[12,19,3,5,2], backgroundColor:'#4e73df' }] }, options:{ responsive:true } });
+    new Chart(document.getElementById('departureChart'), { type:'bar', data:{ labels:['Mon','Tue','Wed','Thu','Fri'], datasets:[{ label:'Departures', data:[5,10,8,2,6], backgroundColor:'#1cc88a' }] }, options:{ responsive:true } });
+    new Chart(document.getElementById('occupancyChart'), { type:'line', data:{ labels:['Wk1','Wk2','Wk3','Wk4'], datasets:[{ label:'%', data:[75,80,78,85], borderColor:'#f6c23e', fill:false }] }, options:{ responsive:true } });
+    new Chart(document.getElementById('inventoryChart'), { type:'doughnut', data:{ labels:['Available','Out of Stock','Maintenance'], datasets:[{ data:[40,10,5], backgroundColor:['#36b9cc','#e74a3b','#f6c23e'] }] }, options:{ responsive:true } });
+    new Chart(document.getElementById('availabilityChart'), { type:'bar', data:{ labels:['Renew','Lotus','Malia'], datasets:[{ label:'Occupied', data:[92,85,130], backgroundColor:'#858796' },{ label:'Vacant', data:[28,10,20], backgroundColor:'#d1d3e2' }] }, options:{ responsive:true, scales:{ y:{ beginAtZero:true } } } });
+  </script>
+</body>
+</html>
