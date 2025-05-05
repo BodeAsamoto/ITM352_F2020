@@ -36,7 +36,7 @@ function navBar() { // the function that generates the nav bar
           document.write(`
               <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
   <div class="container">
-    <a class="navbar-brand" href="index.html">McNaughton Group Staff View</a>
+    <a class="navbar-brand" href="index.html">McNaughton Group Manager View</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="oi oi-menu"></span> Menu
     </button>
@@ -53,10 +53,12 @@ function navBar() { // the function that generates the nav bar
           <div class="dropdown-menu" aria-labelledby="reportsDropdown">
             <a class="dropdown-item" href="currentguestlist.html">Guest List</a>
             <a class="dropdown-item" href="dailyguestcheckin.html">Daily Check-Ins</a>
+            <a class="dropdown-item" href="dailyguestcheckout.html">Daily Check-Outs</a>
           </div>
         </li>
 
         <li class="nav-item"><a href="guestLookup.html" class="nav-link">Guest Lookup</a></li>
+        <li class="nav-item"><a href="Manager-dashboard.html" class="nav-link">Dashboard</a></li>
         <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
         <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
       </ul>

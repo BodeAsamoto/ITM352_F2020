@@ -2,13 +2,22 @@
   "dependencies": {
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "minimist": "^1.2.8",
     "mysql": "^2.18.1",
+    "mysql2": "^3.14.1",
     "php": "^1.1.0"
   },
   "scripts": {
     "start": "node server.js"
-  }
+  },
+  "name": "public",
+  "description": "Thank you for using our template!",
+  "version": "1.0.0",
+  "main": "functions.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
