@@ -102,11 +102,11 @@
                       <h3 class="mb-4">Price Details</h3>
                       <div class="d-flex justify-content-between mb-1">
                           <div>
-                              <h5 class="mb-0"><div id="meow14">this gets changed if you did it right</div></h5>
+                              <h5 class="mb-0"><span id="roomName">this gets changed if you did it right</span></h5>
 
                               <small class="text-muted">Hotel Renew · 1 Night Stay</small>
                           </div>
-                          <h5 class="mb-0">$129.00</h5>
+                          <h5 class="mb-0"><span id="price">this gets changed if you did it right</span></h5>
                       </div>
                       <hr />
                       <div class="input-group mb-3">
@@ -146,8 +146,10 @@
 async function loadGuests() {
   const response = await fetch('/api/roomInfo');
   const data = await response.json();
-  const output = data[0]?.Hotel_ID; //this talks to the session
-  document.getElementById('meow14').innerHTML = output;
+  const roomType = data[0]?.Room_Type || 'Room type not found';
+  document.getElementById('roomName').innerHTML = roomType;
+  const price = data[0]?.Price_per_day !== undefined ? `$${data[0].Price_per_day}` : 'Price not found';
+  document.getElementById('price').innerHTML = price;
 }
 
 window.onload = loadGuests;
