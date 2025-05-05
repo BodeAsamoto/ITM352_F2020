@@ -1,0 +1,78 @@
+<!-- public/dailyguestcheckout.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daily Guest Checkouts - McNaughton Group</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="./functions.js"></script>
+  <script>styleStuff();</script>
+</head>
+<body>
+
+  <script>navBar();</script>
+
+  <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text d-flex align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+          <div class="text">
+            <h1 class="mb-4 bread">Daily Check-Outs</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1 style="text-align:center; margin-top: 20px;">Today's Guest Check-Outs</h1>
+  <table id="dailycheckoutTable" style="margin: 20px auto; width: 90%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Check-Out Date</th>
+        <th>Room Number</th>
+        <th>Hotel Name</th>
+        <th>Hotel Location</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function loadCheckOuts() {
+      try {
+        const response = await fetch('/api/guestcheckouttoday');
+        const guests = await response.json();
+        const tbody = document.querySelector('#dailycheckoutTable tbody');
+
+        guests.forEach(guest => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${guest.First_Name}</td>
+            <td>${guest.Last_Name}</td>
+            <td>${guest.Email || 'N/A'}</td>
+            <td>${guest.Phone}</td>
+            <td>${guest.Address || 'N/A'}</td>
+            <td>${guest.Check_Out_Date.split('T')[0]}</td>
+            <td>${guest.Room_Number}</td>
+            <td>${guest.Hotel_Name}</td>
+            <td>${guest.Hotel_Location}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Failed to load guest check-outs:', error);
+      }
+    }
+
+    window.onload = loadCheckOuts;
+  </script>
+
+  <script>footer();</script>
+</body>
+</html>
