@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Deluxe – Inventory Update</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS dependencies -->
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="css/aos.css" />
+    <link rel="stylesheet" href="css/ionicons.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="css/jquery.timepicker.css" />
+    <link rel="stylesheet" href="css/flaticon.css" />
+    <link rel="stylesheet" href="css/icomoon.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      .form-section {
+        padding: 60px 0;
+      }
+      .form-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      }
+      .form-container h2 {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <script>navBar();</script>
+    <!-- END NAV -->
+
+    <!-- HERO -->
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-8 text-center">
+            <h1 class="mb-3 bread">Inventory Update</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVENTORY FORM -->
+    <section class="form-section">
+      <div class="container">
+        <div class="form-container mx-auto">
+          <h2>Update Inventory</h2>
+          <form action="/updateInventory" method="POST">
+            <div class="form-group">
+              <label for="ItemName">Item Name</label>
+              <input type="text" class="form-control" id="ItemName" name="ItemName" required />
+            </div>
+            <div class="form-group">
+              <label for="Quantity">Quantity</label>
+              <input type="number" class="form-control" id="Quantity" name="Quantity" required />
+            </div>
+            <div class="form-group">
+              <label for="Status">Status</label>
+              <select class="form-control" id="Status" name="Status" required>
+                <option value="In Stock">In Stock</option>
+                <option value="Low">Low</option>
+                <option value="Out of Stock">Out of Stock</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="Hotel_ID">Hotel ID</label>
+              <select class="form-control" id="Hotel_ID" name="Hotel_ID" required>
+                <option value="1">Hotel Renew</option>
+                <option value="2">Lotus Honolulu</option>
+                <option value="3">Waikiki Malia</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block py-2">Submit Inventory Update</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <script>footer()</script>
+
+  </body>
+</html>

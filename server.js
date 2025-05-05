@@ -42,6 +42,59 @@ con.connect(function (err) {// Throws error or confirms connection
  console.log("Connected!");
 });
 
+/*---------------------------------- inventory update ----------------------------------*/
+app.post('/updateInventory', (req, res) => {
+  const { ItemName, Quantity, Status, Hotel_ID } = req.body;
+
+  // First, check if the item already exists for this hotel
+  const checkQuery = `
+    SELECT * FROM Inventory 
+    WHERE ItemName = ? AND Hotel_ID = ?
+  `;
+
+  con.query(checkQuery, [ItemName, Hotel_ID], (err, results) => {
+    if (err) {
+      console.error("Error checking inventory:", err);
+      return res.status(500).send("Database check failed.");
+    }
+
+    if (results.length > 0) {
+      // Item exists — perform UPDATE
+      const updateQuery = `
+        UPDATE Inventory
+        SET Quantity = ?, Status = ?
+        WHERE ItemName = ? AND Hotel_ID = ?
+      `;
+
+      con.query(updateQuery, [Quantity, Status, ItemName, Hotel_ID], (err, result) => {
+        if (err) {
+          console.error("Error updating inventory:", err);
+          return res.status(500).send("Inventory update failed.");
+        }
+        console.log("Inventory updated:", result);
+        res.redirect('/inventory-success.html');
+      });
+
+    } else {
+      // Item doesn't exist — perform INSERT
+      const insertQuery = `
+        INSERT INTO Inventory (Hotel_ID, ItemName, Status, Quantity)
+        VALUES (?, ?, ?, ?)
+      `;
+
+      con.query(insertQuery, [Hotel_ID, ItemName, Status, Quantity], (err, result) => {
+        if (err) {
+          console.error("Error inserting inventory:", err);
+          return res.status(500).send("Inventory insert failed.");
+        }
+        console.log("Inventory inserted:", result);
+        res.redirect('/inventory-success.html');
+      });
+    }
+  });
+});
+
+
 /*---------------------------------- daily guest checkout list ----------------------------------*/
 app.get('/api/guestcheckouttoday', (req, res) => {
   const query = 'SELECT * FROM GuestCheckOutToday';
