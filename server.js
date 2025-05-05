@@ -428,13 +428,13 @@ app.post('/loginStaff', (request, response) => {// Login route
     // Set logged-in cookie and redirect
     response.cookie("loggedIn", 1, { expire: Date.now() + 30 * 60 * 1000 }); // 30 min cookie THAT RECORDS WHEN YOU LOG IN
     
-    if(user.Role === 'Manager'){ // CHANGES THE VALE OF THE STAFF COOKIE ACCORDING TO THE ROLE OF THE STAFF MEMBER
-      response.cookie("staff", 2, {expire: Date.now() + 30 * 60 * 1000});// make a manager cookie
-    }else{
-      response.cookie("staff", 1, {expire: Date.now() + 30 * 60 * 1000});// make a staff cookie
+    if (user.Role === 'Manager') {
+      response.cookie("staff", 2, { expire: Date.now() + 30 * 60 * 1000 }); // manager cookie
+      return response.redirect('/manager-dashboard.html'); // manager redirected to dashboard
+    } else {
+      response.cookie("staff", 1, { expire: Date.now() + 30 * 60 * 1000 }); // staff cookie
+      return response.redirect('/rooms.html'); // staff redirected to rooms
     }
-    
-    return response.redirect('/rooms.html');
   });
 });
 
