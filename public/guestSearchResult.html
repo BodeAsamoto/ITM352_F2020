@@ -11,36 +11,8 @@
   text-align: center; /* This centers the text */
   margin-top: 20px;   /* Optional: Adds some space above the h1 */
   font-size: 2rem;    /* Optional: Adjust font size */
-}
-      /* Center the table and give it a defined width */
-      #guestTable {
-        width: 80%; /* Adjust the width as needed */
-        margin: 20px auto; /* Center horizontally */
-        border-collapse: collapse; /* Remove space between cells */
-        background-color: #f9f9f9; /* Light background color */
-      }
-
-      /* Table header style */
-      #guestTable thead {
-        background-color: #d1d1d1; /* Blue background for header */
-        color: white; /* White text */
-      }
-
-      #guestTable th, #guestTable td {
-        padding: 12px 15px; /* Add some padding to make the cells look nicer */
-        text-align: left; /* Left align text */
-        border: 1px solid #ddd; /* Light border for clarity */
-      }
-
-      /* Alternate row coloring */
-      #guestTable tr:nth-child(even) {
-        background-color: #f2f2f2; /* Light grey background for even rows */
-      }
-
-      /* Hover effect for rows */
-      #guestTable tr:hover {
-        background-color: #ddd; /* Change background color when hovering over a row */
-      }</style>
+    }
+</style>
 </head>
 <body>
   <!---------------------------- Navigation Bar Start ---------------------------->
@@ -79,7 +51,7 @@
   <script>
     async function loadGuests() {
       try {
-        const response = await fetch('/api/guestinfo1'); // Your backend endpoint
+        const response = await fetch('/api/guestinfo'); // Your backend endpoint
         const data = await response.json();
 
         const tbody = document.querySelector('#guestTable tbody');
@@ -102,7 +74,30 @@
 
     window.onload = loadGuests;
   </script>
+<!---------------------------- Footer Start ---------------------------->    
 <script>footer()</script>
+<!----------------------------- Footer End ----------------------------->   
 
-</body>
+<!---------------------------- Loader Start ---------------------------->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="js/google-map.js"></script>
+  <script src="js/main.js"></script>
+<!----------------------------- Loader End ----------------------------->    
+  </body>
 </html>

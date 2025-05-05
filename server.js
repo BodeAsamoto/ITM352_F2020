@@ -27,20 +27,6 @@ app.all('*', function (request, response, next){// this function also makes rese
   next();
 });
 
-
-/*---------------------------------- JSON STUFF ----------------------------------*/
-// process a route for the rooms.json data
-const all_rooms = require(__dirname + "/rooms.json");
-
-app.get('/rooms.js', function(request, response, next) {
-  // the response will be JavaScript
-  response.type('.js');
-  // turn the rooms JSON into a JS variable
-  let rooms_str = `let all_rooms = ${JSON.stringify(all_rooms)};`;
-  // send the JS code as response
-  response.send(rooms_str);
-});
-
 /*---------------------------------- DATABASE CONNECTION ----------------------------------*/
  console.log("Connecting to localhost..."); 
 var con = mysql.createConnection({// Actual DB connection occurs here
@@ -68,7 +54,6 @@ app.get('/api/guestcheckintoday', (req, res) => {
     res.json(results);
   });
 });
-
 
 /*---------------------------------- current guest list attempt 2 ----------------------------------*/
 app.get('/api/currentguests', (req, res) => {
@@ -100,35 +85,12 @@ app.get('/api/currentguests', (req, res) => {
 
 app.post('/api/searchGuest', (req, res) => {
   const result = req.body.input;
-  // Redirect to results.html with the input as a query string
-  res.redirect(`/guestSearchResult.html?query=${encodeURIComponent(result)}`);
-});
-
-app.get('/api/guestinfo', (req, res) => {
-  const query = `
-    SELECT *
-    FROM guest
-    WHERE Lname LIKE 'Doe';
-  `;
-  
-  con.query(query, (err, results) => {
-    if (err) {
-      console.error("Failed to fetch guest list:", err);
-      return res.status(500).json({ error: 'Database error' });
-    }
-    res.json(results);
-  });
-
-});
-
-app.post('/api/searchGuest1', (req, res) => {
-  const result = req.body.input;
   req.session.GuestLookup = result;  // Store the value in session
   // Redirect to results.html with the input as a query string
   res.redirect(`/guestSearchResult.html`);
 });
 
-app.get('/api/guestinfo1', (req, res) => {
+app.get('/api/guestinfo', (req, res) => {
   const guestLookup = req.session.GuestLookup;
   const query = `
     (SELECT *
@@ -169,39 +131,28 @@ app.get('/api/getReservation', (req, res) => {
   res.json({ roomType });
 });
 
-
-// Set EJS as the view engine
-app.set('view engine', 'ejs');
-
-// Set the directory for views (EJS files)
-app.set('views', __dirname + '/views');
-
-
 app.post('/toTransaction', function (request, response) {
   const roomType = request.body.roomType;
+  request.session.requestedRoom = roomType;  // Store the value in session
+  response.redirect(`./transactions.html`); // Redirect
+});
 
-  // Store roomType in the session
-  request.session.reservation = {
-    ...request.session.reservation,
-    roomType: roomType
-  };
-
-  // Log the session data
-  console.log('Session after storing roomType:', request.session.reservation);
-
-  // Render the transaction page and pass session data to the EJS template
-  response.redirect('./transactions.html')
-  });
-
-// API route to get room data
-app.get('/api/rooms', (req, res) => {
-  con.query('SELECT * FROM Rooms WHERE Status = "Available";', (err, results) => {
-    if (err) return res.status(500).json({ error: err });
+app.get('/api/roomInfo', (req, res) => {
+  const roomType = req.session.requestedRoom;
+  const query = `
+    SELECT Hotel_ID 
+    FROM rooms
+    WHERE Room_Type = ?;
+  `;
+  
+  con.query(query, [roomType], (err, results) => {
+    if (err) {
+      console.error("Failed to fetch:", err);
+      return res.status(500).json({ error: 'Database error' });
+    }
     res.json(results);
   });
 });
-
-
 
 // Add the new route for processing transactions
 app.post('/process-transaction', (req, res) => {
@@ -325,7 +276,6 @@ app.post('/checkout', (req, res) => {
       });
   });
 });
-
 
 /*------------------------- Helper Function for Unique Reservation ID -------------------*/
 function generateUniqueReservationID() {
@@ -556,47 +506,6 @@ app.post("/executeSearch", (req, res) => {
 });
 
 /*----------------------------------- REQUESTING -----------------------------------*/
-
-app.post("/nextPage", (req, res) => {
-  const search = req.session.search;
-  const what = req.session.what;
-  let page = parseInt(req.body.page) || 1; // Parse the page number as an integer, default to 1
-  page += 1; // Correct increment
-
-  const limit = 10; // Default to 10 records per page
-  const offset = (page - 1) * limit; // Calculate offset for SQL query
-
-  let query; // Declare the query variable in a broader scope
-
-  if (what === 'geo') {
-    query = `
-      SELECT Record_ID, Title, Department_Name, Year_Range, Subject, Description, Medium, Language 
-      FROM RECORDS 
-      WHERE Geo_Location LIKE '%${search}%'
-      LIMIT ${limit} OFFSET ${offset};
-    `;
-  } else {
-    const type = req.session.type;
-    const format = req.session.format;
-    query = `
-      SELECT Record_ID, Title, Department_Name, Year_Range, Subject, Description, Medium, Language 
-      FROM RECORDS 
-      WHERE ${type} LIKE '%${search}%' AND Medium = '${format}' 
-      LIMIT ${limit} OFFSET ${offset};
-    `;
-  }
-
-  // Execute the query
-  con.query(query, (err, result) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-    req.session.results = result;// Store results in session
-    // Redirect to results.html with updated query parameters
-    res.redirect(`/results.html?search=${encodeURIComponent(search)}&page=${page}`);
-  });
-});
 
 app.post("/request", (req) => {
   let data = req.body;
@@ -882,27 +791,7 @@ app.post('/modifyRecords', (req, res) => {
   }
 });
 
-/*----------------------------------- Unique ID Generation and Date -----------------------------------*/
-
-const generatedAccountIDs = new Set(); // To ensure unique Account_IDs
-function generateUniqueUserID() {// Function to generate a unique random Account_ID
-  let accountID;
-  do {
-    accountID = `U${Math.floor(100000 + Math.random() * 900000)}`; // e.g., "A123456"
-  } while (generatedAccountIDs.has(accountID)); // Ensure it's not a duplicate
-  generatedAccountIDs.add(accountID); // Add to the set
-  return accountID;
-}
-
-const generatedReservationIDs = new Set(); // To ensure unique Account_IDs
-function generateUniqueReservationID() {// Function to generate a unique random Reservation_ID
-  let reservationID;
-  do {
-    reservationID = `R${Math.floor(100000 + Math.random() * 900000)}`; // e.g., "R123456"
-  } while (generatedReservationIDs.has(reservationID)); // Ensure it's not a duplicate
-  generatedReservationIDs.add(reservationID); // Add to the set
-  return reservationID;
-}
+/*----------------------------------- Date -----------------------------------*/
 
 function getCurrentDate() {
   const now = new Date();
