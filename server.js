@@ -204,7 +204,7 @@ app.post('/toTransaction', function (request, response) {
 app.get('/api/roomInfo', (req, res) => {
   const roomType = req.session.requestedRoom;
   const query = `
-    SELECT Hotel_ID 
+    SELECT Room_Type, Price_per_day
     FROM rooms
     WHERE Room_Type = ?;
   `;
