@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Room Availability</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <script src="./functions.js"></script>
+    <script>styleStuff();</script>
+  </head>
+  <body>
+    <script>navBar();</script>
+
+    <!-- HERO -->
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-8 text-center">
+              <h1 class="mb-3 bread">Room Lookup by Hotel</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <section class="ftco-section">
+      <div class="container">
+        <form action="/api/searchRooms" method="POST" class="text-center">
+          <label for="input">Enter Hotel ID:</label>
+          <input type="number" name="input" id="input" required>
+          <button type="submit" class="btn btn-primary ml-2">Search</button>
+        </form>
+      </div>
+    </section>
+
+    <script>footer();</script>
+  </body>
+</html>

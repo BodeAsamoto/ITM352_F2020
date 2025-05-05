@@ -13,6 +13,7 @@ const { type } = require('os');
 
 app.use(express.static('./public'));
 app.use(myParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use((req, res, next) => {
   if (typeof req.session.reservation === 'undefined') {
@@ -40,6 +41,52 @@ var con = mysql.createConnection({// Actual DB connection occurs here
 con.connect(function (err) {// Throws error or confirms connection
   if (err) throw err;
  console.log("Connected!");
+});
+
+/*---------------------------------- Custom query page ----------------------------------*/
+app.post('/api/customQuery', (req, res) => {
+  const { query } = req.body;
+
+  const isSelectQuery = query.trim().toLowerCase().startsWith('select');
+  if (!isSelectQuery) {
+    return res.json({ error: 'Only SELECT queries are allowed for security reasons.' });
+  }
+
+  con.query(query, (err, results) => {
+    if (err) {
+      console.error("Custom query error:", err);
+      return res.json({ error: err.sqlMessage || 'Query execution failed.' });
+    }
+
+    res.json(results);
+  });
+});
+
+/*----------------------------- Room lookup -----------------------------*/
+
+app.post('/api/searchRooms', (req, res) => {
+  const result = req.body.input;
+  req.session.RoomLookup = result;
+  res.redirect('/roomSearchResult.html');
+});
+
+app.get('/api/roominfo', (req, res) => {
+  const hotelId = req.session.RoomLookup;
+
+  const query = `
+    SELECT r.Room_Type, r.Status, r.Capacity, h.Hotel_Name
+    FROM Rooms r
+    JOIN Hotel h ON r.Hotel_ID = h.Hotel_ID
+    WHERE r.Hotel_ID = ?
+  `;
+
+  con.query(query, [hotelId], (err, results) => {
+    if (err) {
+      console.error("Room lookup failed:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(results);
+  });
 });
 
 

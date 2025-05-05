@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Custom SQL Query</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="functions.js"></script>
+  <script>styleStuff();</script>
+</head>
+<body>
+  <script>navBar();</script>
+
+  <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text align-items-center justify-content-center">
+        <div class="col-md-8 text-center">
+          <h1 class="mb-3 bread">Custom SQL Query</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="ftco-section">
+    <div class="container">
+      <form id="sqlForm" method="POST">
+        <div class="form-group">
+          <label for="query">Enter SQL Query:</label>
+          <textarea class="form-control" id="query" name="query" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Run Query</button>
+      </form>
+      <div id="resultContainer" class="mt-5"></div>
+    </div>
+  </section>
+
+  <script>
+    document.getElementById('sqlForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const query = document.getElementById('query').value;
+
+      const response = await fetch('/api/customQuery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query })
+      });
+
+      const data = await response.json();
+      const container = document.getElementById('resultContainer');
+
+      if (data.error) {
+        container.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+        return;
+      }
+
+      if (data.length === 0) {
+        container.innerHTML = '<p>No results found.</p>';
+        return;
+      }
+
+      let table = '<div class="table-responsive"><table class="table table-bordered"><thead><tr>';
+      Object.keys(data[0]).forEach(key => table += `<th>${key}</th>`);
+      table += '</tr></thead><tbody>';
+      data.forEach(row => {
+        table += '<tr>';
+        Object.values(row).forEach(val => table += `<td>${val}</td>`);
+        table += '</tr>';
+      });
+      table += '</tbody></table></div>';
+
+      container.innerHTML = table;
+    });
+  </script>
+
+  <script>footer();</script>
+</body>
+</html>
