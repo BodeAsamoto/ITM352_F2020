@@ -42,6 +42,40 @@ con.connect(function (err) {// Throws error or confirms connection
  console.log("Connected!");
 });
 
+
+/*----------------------------- Inventory lookup -----------------------------*/
+
+// Step 1: POST route to receive the input, store in session, and redirect
+app.post('/api/searchInventory', (req, res) => {
+  const result = req.body.input; // expected from form field named 'input'
+  req.session.InventoryLookup = result; // Store search input in session
+  res.redirect('/inventorySearchResult.html'); // Redirect to results display page
+});
+
+// Step 2: GET route to return item data from DB based on session-stored input
+app.get('/api/inventoryinfo', (req, res) => {
+  const itemSearch = req.session.InventoryLookup;
+
+  if (!itemSearch) {
+    return res.status(400).json({ error: 'No search input found in session.' });
+  }
+
+  const query = `
+    SELECT ItemName, Status, Quantity
+    FROM Inventory
+    WHERE TRIM(LOWER(ItemName)) = TRIM(LOWER(?))
+  `;
+
+  con.query(query, [itemSearch], (err, results) => {
+    if (err) {
+      console.error("Failed to fetch inventory info:", err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    res.json(results);
+  });
+});
+
 /*---------------------------------- cancellation form ----------------------------------*/
 app.post('/cancelReservation', (req, res) => {
   const { Guest_ID, Res_ID } = req.body;
@@ -57,7 +91,6 @@ app.post('/cancelReservation', (req, res) => {
     res.redirect('/cancellation-success.html');
   });
 });
-
 
 
 /*---------------------------------- supplier update ----------------------------------*/
@@ -113,10 +146,9 @@ app.post('/addSupplier', (req, res) => {
 app.post('/updateInventory', (req, res) => {
   const { ItemName, Quantity, Status, Hotel_ID } = req.body;
 
-  // First, check if the item already exists for this hotel
   const checkQuery = `
     SELECT * FROM Inventory 
-    WHERE ItemName = ? AND Hotel_ID = ?
+    WHERE TRIM(LOWER(ItemName)) = TRIM(LOWER(?)) AND Hotel_ID = ?
   `;
 
   con.query(checkQuery, [ItemName, Hotel_ID], (err, results) => {
@@ -130,7 +162,7 @@ app.post('/updateInventory', (req, res) => {
       const updateQuery = `
         UPDATE Inventory
         SET Quantity = ?, Status = ?
-        WHERE ItemName = ? AND Hotel_ID = ?
+        WHERE TRIM(LOWER(ItemName)) = TRIM(LOWER(?)) AND Hotel_ID = ?
       `;
 
       con.query(updateQuery, [Quantity, Status, ItemName, Hotel_ID], (err, result) => {
@@ -143,19 +175,30 @@ app.post('/updateInventory', (req, res) => {
       });
 
     } else {
-      // Item doesn't exist — perform INSERT
-      const insertQuery = `
-        INSERT INTO Inventory (Hotel_ID, ItemName, Status, Quantity)
-        VALUES (?, ?, ?, ?)
-      `;
+      // Item doesn't exist — generate unique Inventory_ID
+      const idQuery = `SELECT MAX(Inventory_ID) AS maxId FROM Inventory`;
 
-      con.query(insertQuery, [Hotel_ID, ItemName, Status, Quantity], (err, result) => {
+      con.query(idQuery, (err, idResult) => {
         if (err) {
-          console.error("Error inserting inventory:", err);
-          return res.status(500).send("Inventory insert failed.");
+          console.error("Error generating inventory ID:", err);
+          return res.status(500).send("Failed to generate Inventory_ID.");
         }
-        console.log("Inventory inserted:", result);
-        res.redirect('/inventory-success.html');
+
+        const newInventoryId = (idResult[0].maxId || 0) + 1;
+
+        const insertQuery = `
+          INSERT INTO Inventory (Inventory_ID, Hotel_ID, ItemName, Status, Quantity)
+          VALUES (?, ?, ?, ?, ?)
+        `;
+
+        con.query(insertQuery, [newInventoryId, Hotel_ID, ItemName, Status, Quantity], (err, result) => {
+          if (err) {
+            console.error("Error inserting inventory:", err);
+            return res.status(500).send("Inventory insert failed.");
+          }
+          console.log("Inventory inserted with ID:", newInventoryId);
+          res.redirect('/inventory-success.html');
+        });
       });
     }
   });

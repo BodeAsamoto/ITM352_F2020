@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Inventory Lookup</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="./functions.js"></script>
+    <script>styleStuff();</script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <script>navBar();</script>
+
+    <!-- Hero Section -->
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text d-flex align-items-end justify-content-center">
+          <div class="col-md-9 ftco-animate text-center d-flex align-items-end justify-content-center">
+            <div class="text">
+              <h1 class="mb-4 bread">Inventory Lookup</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-5">
+            <div class="login-wrap p-4 p-md-5">
+              <div class="icon d-flex align-items-center justify-content-center">
+                <span class="icon-box"></span>
+              </div>
+              <h3 class="text-center mb-4">Enter the item name</h3>
+              <form action="/api/searchInventory" method="POST" class="login-form">
+                <div class="form-group">
+                  <input type="text" class="form-control rounded-left" name="input" placeholder="Item Name" required />
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Lookup</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <script>footer();</script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Inventory Result</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="./functions.js"></script>
+    <script>styleStuff();</script>
+  </head>
+  <body>
+    <script>navBar();</script>
+
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text d-flex align-items-end justify-content-center">
+          <div class="col-md-9 text-center d-flex align-items-end justify-content-center">
+            <div class="text">
+              <h1 class="mb-4 bread">Inventory Result</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section">
+      <div class="container">
+        <div id="inventory-result" class="text-center mt-4"></div>
+        <div class="text-center mt-3">
+          <a href="inventorylookup.html" class="btn btn-primary">Search Again</a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      async function loadInventoryInfo() {
+        try {
+          const res = await fetch('/api/inventoryinfo');
+          const data = await res.json();
+
+          const container = document.getElementById('inventory-result');
+          if (!data || data.length === 0) {
+            container.innerHTML = "<h3>No matching item found.</h3>";
+            return;
+          }
+
+          const item = data[0];
+          container.innerHTML = `
+            <h3>Item: ${item.ItemName}</h3>
+            <p><strong>Status:</strong> ${item.Status}</p>
+            <p><strong>Quantity:</strong> ${item.Quantity}</p>
+          `;
+        } catch (err) {
+          console.error(err);
+          document.getElementById('inventory-result').innerHTML = "<p>Error loading inventory info.</p>";
+        }
+      }
+
+      loadInventoryInfo();
+    </script>
+
+    <script>footer();</script>
+  </body>
+</html>
