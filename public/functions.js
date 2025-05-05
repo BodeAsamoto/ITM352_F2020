@@ -136,6 +136,7 @@ function navBar() { // the function that generates the nav bar
           <div class="dropdown-menu" aria-labelledby="reportsDropdown">
             <a class="dropdown-item" href="currentguestlist.html">Guest List</a>
             <a class="dropdown-item" href="dailyguestcheckin.html">Daily Check-Ins</a>
+            <a class="dropdown-item" href="dailyguestcheckout.html">Daily Check-Outs</a>
           </div>
         </li>
 

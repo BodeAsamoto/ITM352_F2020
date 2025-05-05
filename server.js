@@ -56,6 +56,17 @@ con.connect(function (err) {// Throws error or confirms connection
  console.log("Connected!");
 });
 
+/*---------------------------------- daily guest checkout list ----------------------------------*/
+app.get('/api/guestcheckouttoday', (req, res) => {
+  const query = 'SELECT * FROM GuestCheckOutToday';
+  con.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching guest check-outs:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(results);
+  });
+});
 
 /*---------------------------------- daily guest checkin list ----------------------------------*/
 app.get('/api/guestcheckintoday', (req, res) => {
