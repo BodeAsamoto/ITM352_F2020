@@ -593,7 +593,7 @@ app.post('/loginStaff', (request, response) => {// Login route
       return response.redirect('/manager-dashboard.html'); // manager redirected to dashboard
     } else {
       response.cookie("staff", 1, { expire: Date.now() + 30 * 60 * 1000 }); // staff cookie
-      return response.redirect('/rooms.html'); // staff redirected to rooms
+      return response.redirect('/employeelanding.html'); // staff redirected to rooms
     }
   });
 });
