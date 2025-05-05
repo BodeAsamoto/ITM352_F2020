@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Deluxe – Cancel Reservation</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <script src="functions.js"></script>
+    <script>styleStuff();</script>
+  </head>
+  <body>
+
+    <!-- NAVBAR -->
+    <script>navBar();</script>
+
+    <!-- HERO SECTION -->
+    <div class="hero-wrap" style="background-image: url('images/bg_1.jpg');">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-8 text-center">
+            <h1 class="mb-3 bread">Cancel Reservation</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CANCELLATION FORM -->
+    <section class="form-section">
+      <div class="container">
+        <div class="form-container mx-auto">
+          <h2>Enter Reservation Details to Cancel</h2>
+          <form action="/cancelReservation" method="POST">
+            <div class="form-group">
+              <label for="Guest_ID">Guest ID</label>
+              <input type="number" class="form-control" id="Guest_ID" name="Guest_ID" required />
+            </div>
+            <div class="form-group">
+              <label for="Res_ID">Reservation ID</label>
+              <input type="number" class="form-control" id="Res_ID" name="Res_ID" required />
+            </div>
+            <button type="submit" class="btn btn-danger btn-block py-2">Cancel Reservation</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <script>footer();</script>
+
+  </body>
+</html>

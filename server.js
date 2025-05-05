@@ -42,6 +42,73 @@ con.connect(function (err) {// Throws error or confirms connection
  console.log("Connected!");
 });
 
+/*---------------------------------- cancellation form ----------------------------------*/
+app.post('/cancelReservation', (req, res) => {
+  const { Guest_ID, Res_ID } = req.body;
+
+  const query = `DELETE FROM GuestReservation WHERE Guest_ID = ? AND Res_ID = ?`;
+
+  con.query(query, [Guest_ID, Res_ID], (err, result) => {
+    if (err) {
+      console.error("Error cancelling reservation:", err);
+      return res.status(500).send("Cancellation failed.");
+    }
+    console.log("Reservation cancelled:", result);
+    res.redirect('/cancellation-success.html');
+  });
+});
+
+
+
+/*---------------------------------- supplier update ----------------------------------*/
+app.post('/addSupplier', (req, res) => {
+  const { Supplier_ID, Supplier_Name, Contact_Info, Address } = req.body;
+
+  const checkQuery = `SELECT * FROM Supplier WHERE Supplier_ID = ?`;
+
+  con.query(checkQuery, [Supplier_ID], (err, results) => {
+    if (err) {
+      console.error("Error checking supplier:", err);
+      return res.status(500).send("Database check failed.");
+    }
+
+    if (results.length > 0) {
+      // Supplier exists → UPDATE
+      const updateQuery = `
+        UPDATE Supplier
+        SET Supplier_Name = ?, Contact_Info = ?, Address = ?
+        WHERE Supplier_ID = ?
+      `;
+
+      con.query(updateQuery, [Supplier_Name, Contact_Info, Address, Supplier_ID], (err, result) => {
+        if (err) {
+          console.error("Error updating supplier:", err);
+          return res.status(500).send("Supplier update failed.");
+        }
+        console.log("Supplier updated:", result);
+        res.redirect('/supplier-success.html');
+      });
+
+    } else {
+      // Supplier doesn't exist → INSERT
+      const insertQuery = `
+        INSERT INTO Supplier (Supplier_ID, Supplier_Name, Contact_Info, Address)
+        VALUES (?, ?, ?, ?)
+      `;
+
+      con.query(insertQuery, [Supplier_ID, Supplier_Name, Contact_Info, Address], (err, result) => {
+        if (err) {
+          console.error("Error inserting supplier:", err);
+          return res.status(500).send("Supplier insert failed.");
+        }
+        console.log("Supplier inserted:", result);
+        res.redirect('/supplier-success.html');
+      });
+    }
+  });
+});
+
+
 /*---------------------------------- inventory update ----------------------------------*/
 app.post('/updateInventory', (req, res) => {
   const { ItemName, Quantity, Status, Hotel_ID } = req.body;
