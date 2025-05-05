@@ -913,7 +913,105 @@ function getCurrentDate() {
 
   return `${year}-${month}-${day}`;
 }
+// ──────────────────────────────────────────────────
+// ADD THESE AT THE BOTTOM OF server.js (before app.listen)
+// ──────────────────────────────────────────────────
 
+// 1) Arrivals by weekday
+app.get('/api/arrivals', (req, res) => {
+  const sql = `
+    SELECT 
+      DAYNAME(Check_In) AS day,
+      COUNT(*)           AS count
+    FROM StayHistory
+    GROUP BY day
+    ORDER BY FIELD(
+      DAYNAME(Check_In),
+      'Monday','Tuesday','Wednesday','Thursday',
+      'Friday','Saturday','Sunday'
+    )
+  `;
+  con.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+// 2) Departures by weekday
+app.get('/api/departures', (req, res) => {
+  const sql = `
+    SELECT 
+      DAYNAME(Check_Out) AS day,
+      COUNT(*)            AS count
+    FROM StayHistory
+    GROUP BY day
+    ORDER BY FIELD(
+      DAYNAME(Check_Out),
+      'Monday','Tuesday','Wednesday','Thursday',
+      'Friday','Saturday','Sunday'
+    )
+  `;
+  con.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+// 3) Weekly occupancy (number of check-ins per week)
+app.get('/api/occupancy', (req, res) => {
+  const sql = `
+    SELECT 
+      CONCAT(YEAR(Check_In), '-W', WEEK(Check_In)) AS week,
+      COUNT(*)                                   AS count
+    FROM StayHistory
+    GROUP BY week
+    ORDER BY week
+  `;
+  con.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+// 4) Inventory status breakdown
+app.get('/api/inventory', (req, res) => {
+  const sql = `
+    SELECT 
+      Status AS label,
+      SUM(Quantity) AS total
+    FROM Inventory
+    GROUP BY Status
+  `;
+  con.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+// 5) Room availability per hotel
+app.get('/api/availability', (req, res) => {
+  const sql = `
+    SELECT
+      h.Hotel_Name           AS hotel,
+      COUNT(r.Room_ID)       AS total_rooms,
+      SUM(
+        CASE 
+          WHEN sh.Check_In  <= CURDATE() 
+           AND sh.Check_Out >= CURDATE() 
+          THEN 1 ELSE 0 
+        END
+      )                       AS occupied_rooms
+    FROM Rooms r
+    JOIN Hotel h   ON r.Hotel_ID      = h.Hotel_ID
+    LEFT JOIN StayHistory sh 
+      ON r.Room_ID = sh.Room_ID
+    GROUP BY h.Hotel_ID
+  `;
+  con.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
 /*----------------------------------- ROUTING -----------------------------------*/
 app.all('*', function (request, response, next) {// This must be at the end!
   console.log(request.method + ' to ' + request.path);

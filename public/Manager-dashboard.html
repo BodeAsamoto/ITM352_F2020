@@ -21,7 +21,11 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <!-- Modern Navbar with Dropdowns -->
+  <!--
+    ⚙️ Ensure your API and static server are running:
+    • API: node server.js on port 8080
+    • HTTP: serve this file (e.g., python3 -m http.server)
+  -->
   <nav class="navbar navbar-expand-lg navbar-light sticky-top">
     <div class="container-fluid">
       <a class="navbar-brand fw-bold" href="#">HotelDash</a>
@@ -32,19 +36,19 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="reportsDropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" data-bs-toggle="dropdown">Reports</a>
+            <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="#">Daily Check-In</a></li>
               <li><a class="dropdown-item" href="#">Daily Check-Out</a></li>
               <li><a class="dropdown-item" href="#">Current Guest List</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="formsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Forms</a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="formsDropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="formsDropdown" data-bs-toggle="dropdown">Forms</a>
+            <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="#">Inventory Update</a></li>
-              <li><a class="dropdown-item" href="#">Supplier Add Form</a></li>
-              <li><a class="dropdown-item" href="#">Cancellation Form</a></li>
+              <li><a class="dropdown-item" href="#">Supplier Add</a></li>
+              <li><a class="dropdown-item" href="#">Cancellation</a></li>
             </ul>
           </li>
           <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
@@ -53,17 +57,15 @@
     </div>
   </nav>
 
-  <!-- Header -->
   <div class="header bg-white mb-4">
     <h1>Hotel Operations Dashboard</h1>
     <p class="text-muted">Real-time insights into rooms, occupancy, and inventory</p>
   </div>
 
-  <!-- Dashboard Grid -->
   <div class="container">
     <div class="row g-4">
       <div class="col-md-6 col-lg-4">
-        <div class="card p-3 bg-white">
+        <div class="card p-3">
           <div class="card-body">
             <h5 class="card-title">Arrival Rooms</h5>
             <canvas id="arrivalChart"></canvas>
@@ -71,7 +73,7 @@
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
-        <div class="card p-3 bg-white">
+        <div class="card p-3">
           <div class="card-body">
             <h5 class="card-title">Departure Rooms</h5>
             <canvas id="departureChart"></canvas>
@@ -79,7 +81,7 @@
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
-        <div class="card p-3 bg-white">
+        <div class="card p-3">
           <div class="card-body">
             <h5 class="card-title">Guest Occupancy (%)</h5>
             <canvas id="occupancyChart"></canvas>
@@ -87,7 +89,7 @@
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
-        <div class="card p-3 bg-white">
+        <div class="card p-3">
           <div class="card-body">
             <h5 class="card-title">Inventory Status</h5>
             <canvas id="inventoryChart"></canvas>
@@ -95,7 +97,7 @@
         </div>
       </div>
       <div class="col-md-6 col-lg-4">
-        <div class="card p-3 bg-white">
+        <div class="card p-3">
           <div class="card-body">
             <h5 class="card-title">Room Availability</h5>
             <canvas id="availabilityChart"></canvas>
@@ -103,35 +105,63 @@
         </div>
       </div>
       <div class="col-md-12 col-lg-4">
-        <div class="card p-3 bg-gradient-primary text-white">
-          <div class="card-body text-center">
-            <h5 class="card-title">Key Hotels</h5>
-            <ul class="list-unstyled mb-0">
-              <li>Hotel Renew: <strong>92/120</strong></li>
-              <li>Lotus Honolulu: <strong>85/95</strong></li>
-              <li>Waikiki Malia: <strong>130/150</strong></li>
-            </ul>
-          </div>
+        <div class="card p-3 bg-gradient-primary text-white text-center">
+          <h5 class="card-title">Key Hotels</h5>
+          <ul class="list-unstyled mb-0">
+            <li>Hotel Renew: <strong>92/120</strong></li>
+            <li>Lotus Honolulu: <strong>85/95</strong></li>
+            <li>Waikiki Malia: <strong>130/150</strong></li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    &copy; <span id="year"></span> HotelDash. All rights reserved.
-  </div>
+  <div class="footer">&copy; <span id="year"></span> HotelDash. All rights reserved.</div>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    // Chart Data Initialization
-    new Chart(document.getElementById('arrivalChart'), { type:'bar', data:{ labels:['Mon','Tue','Wed','Thu','Fri'], datasets:[{ label:'Arrivals', data:[12,19,3,5,2], backgroundColor:'#4e73df' }] }, options:{ responsive:true } });
-    new Chart(document.getElementById('departureChart'), { type:'bar', data:{ labels:['Mon','Tue','Wed','Thu','Fri'], datasets:[{ label:'Departures', data:[5,10,8,2,6], backgroundColor:'#1cc88a' }] }, options:{ responsive:true } });
-    new Chart(document.getElementById('occupancyChart'), { type:'line', data:{ labels:['Wk1','Wk2','Wk3','Wk4'], datasets:[{ label:'%', data:[75,80,78,85], borderColor:'#f6c23e', fill:false }] }, options:{ responsive:true } });
-    new Chart(document.getElementById('inventoryChart'), { type:'doughnut', data:{ labels:['Available','Out of Stock','Maintenance'], datasets:[{ data:[40,10,5], backgroundColor:['#36b9cc','#e74a3b','#f6c23e'] }] }, options:{ responsive:true } });
-    new Chart(document.getElementById('availabilityChart'), { type:'bar', data:{ labels:['Renew','Lotus','Malia'], datasets:[{ label:'Occupied', data:[92,85,130], backgroundColor:'#858796' },{ label:'Vacant', data:[28,10,20], backgroundColor:'#d1d3e2' }] }, options:{ responsive:true, scales:{ y:{ beginAtZero:true } } } });
+
+    // Fallback data for charts
+    const fallbacks = {
+      arrivals:    [{day:'Mon',count:12},{day:'Tue',count:19},{day:'Wed',count:3},{day:'Thu',count:5},{day:'Fri',count:2}],
+      departures:  [{day:'Mon',count:5},{day:'Tue',count:10},{day:'Wed',count:8},{day:'Thu',count:2},{day:'Fri',count:6}],
+      occupancy:   [{week:'Wk1',count:75},{week:'Wk2',count:80},{week:'Wk3',count:78},{week:'Wk4',count:85}],
+      inventory:   [{Status:'Available',total:40},{Status:'Out of Stock',total:10},{Status:'Maintenance',total:5}],
+      availability:[{hotel:'Renew',total_rooms:120,occupied_rooms:92},{hotel:'Lotus',total_rooms:95,occupied_rooms:85},{hotel:'Malia',total_rooms:150,occupied_rooms:130}]
+    };
+
+    async function loadChart(endpoint, cfg) {
+      let data;
+      try {
+        const resp = await fetch(`http://localhost:8080/api/${endpoint}`);
+        data = await resp.json();
+      } catch (e) {
+        console.warn(`Using fallback for ${endpoint}`);
+        data = fallbacks[endpoint];
+      }
+      const labels = data.map(r => r.day || r.week || r.hotel);
+      if (endpoint === 'availability') {
+        const occupied = data.map(r => r.occupied_rooms);
+        const vacant   = data.map(r => r.total_rooms - r.occupied_rooms);
+        cfg.data.labels = labels;
+        cfg.data.datasets[0].data = occupied;
+        cfg.data.datasets[1].data = vacant;
+      } else {
+        cfg.data.labels = labels;
+        cfg.data.datasets[0].data = data.map(r => r.count || r.total);
+      }
+      new Chart(document.getElementById(cfg.canvas), cfg);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadChart('arrivals',    {canvas:'arrivalChart',    type:'bar',      data:{labels:[],datasets:[{label:'Arrivals',           data:[],backgroundColor:'#4e73df'}]}, options:{responsive:true}});
+      loadChart('departures',  {canvas:'departureChart',  type:'bar',      data:{labels:[],datasets:[{label:'Departures',         data:[],backgroundColor:'#1cc88a'}]}, options:{responsive:true}});
+      loadChart('occupancy',   {canvas:'occupancyChart',  type:'line',     data:{labels:[],datasets:[{label:'Check-Ins/week',    data:[],fill:false,borderColor:'#f6c23e'}]}, options:{responsive:true}});
+      loadChart('inventory',   {canvas:'inventoryChart',  type:'doughnut', data:{labels:[],datasets:[{label:'Inventory', data:[],backgroundColor:['#36b9cc','#e74a3b','#f6c23e']}]}, options:{responsive:true}});
+      loadChart('availability',{canvas:'availabilityChart',type:'bar',      data:{labels:[],datasets:[{label:'Occupied',data:[],backgroundColor:'#858796'},{label:'Vacant',data:[],backgroundColor:'#d1d3e2'}]}, options:{responsive:true,scales:{y:{beginAtZero:true}}}});
+    });
   </script>
 </body>
 </html>
