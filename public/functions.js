@@ -25,6 +25,7 @@ function navBar() { // the function that generates the nav bar
                         <li class="nav-item"><a href="checkin.html" class="nav-link">Check In</a></li>
                         <li class="nav-item"><a href="currentguestlist.html" class="nav-link">Guest List</a></li>
                         <li class="nav-item"><a href="guestLookup.html" class="nav-link">Guest Lookup</a></li>
+                        <li class="nav-item"><a href="roomlookup.html" class="nav-link">Room Availability</a></li>
                         <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
                         <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                       </ul>
@@ -34,33 +35,50 @@ function navBar() { // the function that generates the nav bar
           `);
       } else if(CookieStaff == 2) {
           document.write(`
-              <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
   <div class="container">
     <a class="navbar-brand" href="index.html">McNaughton Group Manager View</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="oi oi-menu"></span> Menu
     </button>
     <div class="collapse navbar-collapse" id="ftco-nav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-        <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="manager-dashboard.html">Dashboard</a></li>
 
-        <!-- Dropdown for Reports -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="reportsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Reports
           </a>
-          <div class="dropdown-menu" aria-labelledby="reportsDropdown">
-            <a class="dropdown-item" href="currentguestlist.html">Guest List</a>
-            <a class="dropdown-item" href="dailyguestcheckin.html">Daily Check-Ins</a>
-            <a class="dropdown-item" href="dailyguestcheckout.html">Daily Check-Outs</a>
-          </div>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="reportsDropdown">
+            <li><a class="dropdown-item" href="dailyguestcheckin.html">Daily Check-In</a></li>
+            <li><a class="dropdown-item" href="dailyguestcheckout.html">Daily Check-Out</a></li>
+            <li><a class="dropdown-item" href="currentguestlist.html">Current Guest List</a></li>
+          </ul>
         </li>
 
-        <li class="nav-item"><a href="guestLookup.html" class="nav-link">Guest Lookup</a></li>
-        <li class="nav-item"><a href="Manager-dashboard.html" class="nav-link">Dashboard</a></li>
-        <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
-        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="formsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Forms
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="formsDropdown">
+            <li><a class="dropdown-item" href="inventory-update.html">Inventory Update</a></li>
+            <li><a class="dropdown-item" href="supplier-add.html">Supplier Add</a></li>
+            <li><a class="dropdown-item" href="cancellation.html">Cancellation</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="functionsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Other Functions
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="functionsDropdown">
+            <li><a class="dropdown-item" href="inventorylookup.html">Inventory Levels</a></li>
+            <li><a class="dropdown-item" href="guestLookup.html">Guest Look Up</a></li>
+            <li><a class="dropdown-item" href="roomlookup.html">Room Availability</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
       </ul>
     </div>
   </div>
