@@ -22,7 +22,7 @@ function navBar() { // the function that generates the nav bar
                     <div class="collapse navbar-collapse" id="ftco-nav">
                       <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-                        <li class="nav-item"><a href="rooms.html" class="nav-link">Rooms</a></li>
+                        <li class="nav-item"><a href="checkin.html" class="nav-link">Check In</a></li>
                         <li class="nav-item"><a href="currentguestlist.html" class="nav-link">Guest List</a></li>
                         <li class="nav-item"><a href="guestLookup.html" class="nav-link">Guest Lookup</a></li>
                         <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
