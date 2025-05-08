@@ -78,6 +78,8 @@ function navBar() { // the function that generates the nav bar
           </ul>
         </li>
 
+        <li class="nav-item"><a href="./logout" class="nav-link" onclick="logout()">Log Out</a></li>
+
         <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
       </ul>
     </div>
